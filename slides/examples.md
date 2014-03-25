@@ -238,82 +238,101 @@ alldat <- cbind(dat[match(hkey, dkey),], hosp[,-match(c('id','key'), names(hosp)
 alldat <- alldat[!is.na(alldat$id),]
 ```
 
+### A custom merge using match can be much faster
+
 ---
 
-## finish transformations, create intermediate dataset
-# easier to pick up from here
-# compressed storage
+## Intermediate data set
+* Convenient starting point and compressed
+```r
+# platform-independent path to working directory
+work.dir <- file.path('path','to','your','data')
+
+# save for later
 save(dat, hosp, alldat, file = file.path(work.dir, 'demo_data.RData'))
-# load(file.path(work.dir, 'demo_data.RData'))
 
-## validation
-# write functions for different form validations -- modularity
-# shorter functions are easier to maintain and test
+# pick up where you left off
+load(file.path(work.dir, 'demo_data.RData'))
+```
 
-### KEY CONCEPT 2: MODULARITY
-checkDemographics <- function(x) {
-  ## what should be vectorized?
-  # the way to not do validation
-  errors <- character()
-  errors <- NULL
-  for(i in seq(nrow(x))) {
-    if(is.na(x$enroll.date[i])) errors <- c(errors, 'no enroll date')
-    if(is.na(x$surgery.date[i])) errors <- c(errors, 'no surgery date')
-    if(is.na(x$followup.date[i])) errors <- c(errors, 'no followup date')
-    if(x$enroll.date[i] > x$surgery.date[i]) errors <- c(errors, 'must be enrolled before surgery')
-    if(x$surgery.date[i] > x$followup.date[i])  errors <- c(errors, 'must have surgery before follow-up')
-    if(x$height[i] < 48 || x$height[i] > 84) errors <- c(errors, 'height is too short or tall')
-    if(x$on.insulin[i] && !x$diabetes[i]) errors <- c(errors, 'on insulin, but not diabetic')
-  }
-  # does information in one row inform another row?
-  # it would be easy to check if there are no errors and adjust output
-  errors <- character(7)
-  # ?sprintf, use %s for variable place-holder
-  errors[1] <- sprintf("no enroll date for rows [%s]", paste(which(is.na(x$enroll.date)), collapse=','))
-  errors[2] <- sprintf("no surgery date for rows [%s]", paste(which(is.na(x$surgery.date)), collapse=','))
-  errors[3] <- sprintf("no followup date for rows [%s]", paste(which(is.na(x$followup.date)), collapse=','))
-  errors[4] <- sprintf("must be enrolled before surgery for rows [%s]", paste(which(x$enroll.date > x$surgery.date), collapse=','))
-  errors[5] <- sprintf("must have surgery before follow-up for rows [%s]", paste(which(x$surgery.date > x$followup.date), collapse=','))
-  errors[6] <- sprintf("height is too short or tall for rows [%s]", paste(which(x$height < 48 | x$height > 84), collapse=','))
-  errors[7] <- sprintf("on insulin, but not diabetic [%s]", paste(which(x$on.insulin & !x$diabetes), collapse=','))
-  # I prefer a data.frame approach - cleaner and easy to check
-  errorList <- c(
-    miss.enroll = 'no enroll date',
-    miss.surgery = 'no surgery date',
-    miss.followup = 'no followup date',
-    late.enroll = 'must be enrolled before surgery',
-    late.surgery = 'must have surgery before follow-up',
-    bad.height = 'height is too short or tall',
-    bad.insulin = 'on insulin, but not diabetic'
-  )
-  errors <- data.frame(matrix(NA, nrow=nrow(x), ncol=length(errorList)))
-  names(errors) <- names(errorList)
-  errors$miss.enroll <- is.na(x$enroll.date)
-  errors$miss.surgery <- is.na(x$surgery.date)
-  errors$miss.followup <- is.na(x$followup.date)
-  # DRY applies here, especially if we checked more than 3 columns for missing
-  errors$late.enroll <- x$enroll.date > x$surgery.date
-  errors$late.surgery <- x$surgery.date > x$followup.date
-  errors$bad.height <- x$height < 48 | x$height > 84
-  errors$bad.insulin <- x$on.insulin & !x$diabetes
-  errorMsg <- lapply(names(which(colSums(errors, na.rm=TRUE) > 0)), FUN=function(i) {
-    sprintf("%s for rows [%s]", errorList[i], paste(which(errors[,i]), collapse=','))
-  })
-  errorMsg
+---
+
+## Validation
+* Modularity - write functions for different form validations
+* Shorter functions are easier to maintain and test
+
+* Goal: generate text file with errors by creating a vector of character strings
+
+### Examine by ID or all IDs
+* Does information in one row inform another?
+* Determine tasks that can be vectorized
+
+---
+
+## How not to validate
+```r
+errors <- character()
+errors <- NULL
+for(i in seq(nrow(x))) {
+  if(is.na(x$enroll.date[i])) errors <- c(errors, 'no enroll date')
+  if(is.na(x$surgery.date[i])) errors <- c(errors, 'no surgery date')
+  if(is.na(x$followup.date[i])) errors <- c(errors, 'no followup date')
+  if(x$enroll.date[i] > x$surgery.date[i]) errors <- c(errors, 'must be enrolled before surgery')
+  if(x$surgery.date[i] > x$followup.date[i])  errors <- c(errors, 'must have surgery before follow-up')
+  if(x$height[i] < 48 || x$height[i] > 84) errors <- c(errors, 'height is too short or tall')
+  if(x$on.insulin[i] && !x$diabetes[i]) errors <- c(errors, 'on insulin, but not diabetic')
 }
+```
 
-checkHospitalizationById <- function(x, errorList) {
-  uid <- unique(x$id)
-  if(length(uid) > 1) stop("checkHospitalizationById shouldn't receive multiple ids")
-  errors <- matrix("", nrow=1, ncol=length(errorList))
-  dimnames(errors) <- list(uid, names(errorList))
-  errors[,'bad.dose'] <- paste(which(as.numeric(x$dose2.time - x$dose1.time, unit = 'hours') < 8), collapse=',')
-  errors[,'bad.admit'] <- paste(which(as.numeric(x$dose1.time - x$admit.time, unit = 'hours') < 2), collapse=',')
-  errors[,'need.dose'] <- paste(which(x$dose.req & (is.na(x$dose1.time) | is.na(x$dose2.time))), collapse=',')
-  errors[,'extra.dose'] <- paste(which(!x$dose.req & (!is.na(x$dose1.time) | !is.na(x$dose2.time))), collapse=',')
-  errors
-}
+---
 
+## Pre-define errors
+```r
+errors <- character(7)
+# ?sprintf
+# use %s for variable place-holder
+errors[1] <- sprintf("no enroll date for rows [%s]", paste(which(is.na(x$enroll.date)), collapse=','))
+errors[2] <- sprintf("no surgery date for rows [%s]", paste(which(is.na(x$surgery.date)), collapse=','))
+errors[3] <- sprintf("no followup date for rows [%s]", paste(which(is.na(x$followup.date)), collapse=','))
+errors[4] <- sprintf("must be enrolled before surgery for rows [%s]", paste(which(x$enroll.date > x$surgery.date), collapse=','))
+errors[5] <- sprintf("must have surgery before follow-up for rows [%s]", paste(which(x$surgery.date > x$followup.date), collapse=','))
+errors[6] <- sprintf("height is too short or tall for rows [%s]", paste(which(x$height < 48 | x$height > 84), collapse=','))
+errors[7] <- sprintf("on insulin, but not diabetic [%s]", paste(which(x$on.insulin & !x$diabetes), collapse=','))
+```
+
+---
+
+## data.frame approach
+```r
+errorList <- c(
+  miss.enroll = 'no enroll date',
+  miss.surgery = 'no surgery date',
+  miss.followup = 'no followup date',
+  late.enroll = 'must be enrolled before surgery',
+  late.surgery = 'must have surgery before follow-up',
+  bad.height = 'height is too short or tall',
+  bad.insulin = 'on insulin, but not diabetic'
+)
+errors <- data.frame(matrix(NA, nrow=nrow(x), ncol=length(errorList)))
+names(errors) <- names(errorList)
+# DRY applies here, especially if we checked more than 3 columns for missing
+errors$miss.enroll <- is.na(x$enroll.date)
+errors$miss.surgery <- is.na(x$surgery.date)
+errors$miss.followup <- is.na(x$followup.date)
+errors$late.enroll <- x$enroll.date > x$surgery.date
+errors$late.surgery <- x$surgery.date > x$followup.date
+errors$bad.height <- x$height < 48 | x$height > 84
+errors$bad.insulin <- x$on.insulin & !x$diabetes
+errorMsg <- lapply(names(which(colSums(errors, na.rm=TRUE) > 0)), FUN=function(i) {
+  sprintf("%s for rows [%s]", errorList[i], paste(which(errors[,i]), collapse=','))
+})
+```
+
+---
+
+## Some things must be done one ID at a time
+
+```r
 checkHospitalization <- function(x) {
   errorList <- c(
     bad.dose = 'time between doses is too short',
@@ -338,6 +357,10 @@ checkHospitalization <- function(x) {
   })
   errorMsg
 }
+```
+
+---
+
 ### Check out [data.table](http://datatable.r-forge.r-project.org/)
 
 dem.errors <- checkDemographics(dat)
