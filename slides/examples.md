@@ -1,17 +1,33 @@
-### My objective is to save you future time: you'll write programs faster, you'll modify programs faster, and your programs will run faster.
+# The R Seminar You Wish You'd Had Ten Years Ago
 
-### efficient code
-# 1) how long does it take to write
-# 2) how long does it take to modify
-# 3) how long does it take to run
-## it's a good thing if other people can read and understand your code -- it's even better if you can understand your code when you revisit it three years later
-## it's a good thing if your code runs start to finish without intervention -- it's even better if you can specify at what point to start or finish
-## it's a good thing if you can optimize code so that it runs in 1 minute instead of 10 minutes -- it's even better if you didn't spend 4 hours (pre-optimization)
+[GitHub: R Seminar](https://github.com/couthcommander/seminar)
 
-### key concepts
-# 1) don't repeat yourself - don't copy and paste
-# 2) use modular design; keep it simple or comment
-# 3) learn to vectorize and predefine the length of vectors
+---
+
+The objective of this presentation is to save you future time
+
+## Code Efficiency
+1. How long does it take to write?
+2. How long does it take to modify?
+3. How long does it take to run?
+
+This talk is specifically tailored to the R programming language, but you could certain extend the principles to other languages.
+
+* It's a good thing if other people can read and understand your code
+  * It's even better if you can understand your code when you revisit it three years later
+* It's a good thing if your code runs start to finish without intervention
+  * It's even better if you can specify at what point to start or finish
+* It's a good thing if you can optimize code so that it runs in 1 minute instead of 10 minutes
+  * It's even better if you didn't spend 4 hours (pre-optimization)
+
+---
+
+## Key Concepts
+1. Don't repeat yourself - don't copy and paste
+2. Use modular design - keep it simple or comment
+3. Learn to vectorize and predefine the length of vectors
+
+---
 
 library(Hmisc)
 
