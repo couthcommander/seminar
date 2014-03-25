@@ -361,17 +361,17 @@ checkHospitalization <- function(x) {
 
 ---
 
-### Check out [data.table](http://datatable.r-forge.r-project.org/)
-
+## Putting it together
+```r
 dem.errors <- checkDemographics(dat)
+# when testing, work on a smaller subset
 hosp.errors <- checkHospitalization(alldat[1:1000,])
 all.errors <- unlist(c(dem.errors, hosp.errors))
+
 # write out errors
 write(all.errors, file = file.path(work.dir, 'validation_errors.txt'))
+```
 
-# repeating test
-# reference sas script - break tasks down into functions
-# talk about mer's project, metadata and data dictionaries build programs
-# regular expressions
-# knitr
-# linear model
+### Check out [data.table](http://datatable.r-forge.r-project.org/) and [dplyr](https://github.com/hadley/dplyr)
+
+---
