@@ -1,4 +1,5 @@
-# The R Seminar You Wish You'd Had Ten Years Ago
+# The R Seminar
+# You Wish You'd Had Ten Years Ago
 
 [GitHub: R Seminar](https://github.com/couthcommander/seminar)
 
@@ -26,8 +27,6 @@ This talk is specifically tailored to the R programming language, but you could 
 1. Don't repeat yourself - don't copy and paste
 2. Use modular design - keep it simple or comment
 3. Learn to vectorize and predefine the length of vectors
-
----
 
 Inspiration for this talk came from examining an R script used for data validation.
 This is fairly normal task, and it provided several examples of things worth thinking about when writing such a script.
@@ -373,5 +372,3 @@ write(all.errors, file = file.path(work.dir, 'validation_errors.txt'))
 ```
 
 ### Check out [data.table](http://datatable.r-forge.r-project.org/) and [dplyr](https://github.com/hadley/dplyr)
-
----

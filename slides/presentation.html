@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>The R Seminar</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="file:///usr/local/lib/python2.7/dist-packages/landslide/themes/default/css/print.css">
+    <link rel="stylesheet" media="screen, projection" href="file:///usr/local/lib/python2.7/dist-packages/landslide/themes/default/css/screen.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="file:///usr/local/lib/python2.7/dist-packages/landslide/themes/default/js/slides.js"></script>
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>The R Seminar</h1></header>
+            
+            
+            <section><h1>You Wish You'd Had Ten Years Ago</h1>
+<p><a href="https://github.com/couthcommander/seminar">GitHub: R Seminar</a></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Code Efficiency</h2></header>
+            
+            
+            <section><ol>
+<li>How long does it take to write?</li>
+<li>How long does it take to modify?</li>
+<li>How long does it take to run?</li>
+</ol>
+<p>This talk is specifically tailored to the R programming language, but you could certain extend the principles to other languages.</p>
+<ul>
+<li>It's a good thing if other people can read and understand your code</li>
+<li>It's even better if you can understand your code when you revisit it three years later</li>
+<li>It's a good thing if your code runs start to finish without intervention</li>
+<li>It's even better if you can specify at what point to start or finish</li>
+<li>It's a good thing if you can optimize code so that it runs in 1 minute instead of 10 minutes</li>
+<li>It's even better if you didn't spend 4 hours (pre-optimization)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Key Concepts</h2></header>
+            
+            
+            <section><ol>
+<li>Don't repeat yourself - don't copy and paste</li>
+<li>Use modular design - keep it simple or comment</li>
+<li>Learn to vectorize and predefine the length of vectors</li>
+</ol>
+<p>Inspiration for this talk came from examining an R script used for data validation.
+This is fairly normal task, and it provided several examples of things worth thinking about when writing such a script.
+The data sets provided were simulated (and probably aren't very realistic).</p>
+<p>In a perfect world, this data would be accompanied by a data dictionary or meta-data that would perform the validation.</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Starting Point</h2></header>
+            
+            
+            <section><p>Before validating your data, transform your data.
+This may including adding, editing, or removing columns, as well as merging multiple data sets.
+Most transformation operations can be vectorized.</p>
+<p>Transformations should create intermediate data sets.</p>
+<ol>
+<li>These can be saved in compressed formats</li>
+<li>These provide checkpoints that can be utilized instead of re-running entire scripts</li>
+</ol></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Assign a new column</h2></header>
+            
+            
+            <section><p>```r
+x &lt;- data.frame(id=seq(1000000))
+s &lt;- sample(nrow(x))</p>
+<h1>dollar sign</h1>
+<p>x$s1 &lt;- s</p>
+<h1>single bracket with comma</h1>
+<p>x[,'s2'] &lt;- s</p>
+<h1>single bracket</h1>
+<p>x['s3'] &lt;- s</p>
+<h1>double bracket</h1>
+<p>x[['s4']] &lt;- s</p>
+<h1>assign default (NA), then value</h1>
+<p>x$s &lt;- NA
+x$s &lt;- s
+```</p>
+<p><code>r
+?Extract</code></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Convert TRUE/FALSE to 1/0</h2></header>
+            
+            
+            <section><p><code>r
+x &lt;- sample(TRUE:FALSE, 10, replace=TRUE)
+as.numeric(x)
+x+0
+x*1
+mode(x) &lt;- 'numeric'</code></p>
+<p>Some optimizations just don't matter.</p>
+<p>It's good to know there's more than one way to do it.</p>
+<p>Choose your preference weighing how easy it is to type or read -- then be consistent.</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Converting strings to dates</h2></header>
+            
+            
+            <section><p>```r</p>
+<h1>This violates <strong>don't repeat yourself</strong></h1>
+<p>dat$enroll.date &lt;- as.Date(dat$enroll.date, format = '%Y-%m-%d')
+dat$surgery.date &lt;- as.Date(dat$surgery.date, format = '%Y-%m-%d')
+dat$followup.date &lt;- as.Date(dat$followup.date, format = '%Y-%m-%d')</p>
+<h1>name date columns</h1>
+<p>date.vars &lt;- c('enroll.date', 'surgery.date', 'followup.date')</p>
+<h1>Hmisc::Cs doesn't require quotes</h1>
+<p>date.vars &lt;- Cs(enroll.date, surgery.date, followup.date)</p>
+<h1>rely on good column names</h1>
+<p>date.vars &lt;- grep('date$', names(dat), value=TRUE)</p>
+<h1>loop over date variables</h1>
+<p>for(i in date.vars) {
+  dat[,i] &lt;- as.Date(dat[,i], format = '%Y-%m-%d')
+}</p>
+<h1>cannot re-assign all at once</h1>
+<p>dat[,date.vars] &lt;- as.Date(dat[,date.vars], format = '%Y-%m-%d')</p>
+<h1>lapply works</h1>
+<p>dat[,date.vars] &lt;- lapply(dat[,date.vars], as.Date, format = '%Y-%m-%d')
+```</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Converting strings to date-times</h2></header>
+            
+            
+            <section><ul>
+<li>Specify the timezone -- default relies on locale so results may vary on user/computer/location</li>
+<li>
+<p>UTC will avoid daylight savings problems
+<code>r
+time.vars &lt;- grep('time$', names(hosp), value=TRUE)
+for(i in time.vars) {
+  hosp[,i] &lt;- as.POSIXct(hosp[,i], format = '%Y-%m-%d %H:%M', tz = 'UTC')
+}</code></p>
+</li>
+<li>
+<p>Consider using function if called from multiple locations in code
+<code>r
+dtCT &lt;- function(x, format = '%Y-%m-%d %H:%M', tz = 'UTC', ...) as.POSIXct(x, format = format, tz = tz, ...)
+hosp[,time.vars] &lt;- lapply(hosp[,time.vars], dtCT)</code></p>
+</li>
+</ul>
+<h3>Check out <a href="https://github.com/hadley/lubridate">lubridate</a></h3></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Too many tests</h2></header>
+            
+            
+            <section><ul>
+<li>When is an ifelse statement too long and what are alternatives?
+```r
+age.grp &lt;- ifelse(dat$age &lt; 46, 1, ifelse(dat$age &lt; 51, 2, ifelse(dat$age &lt; 56, 3, ifelse(dat$age &lt; 61, 4, 5))))</li>
+</ul>
+<h1>solve arithmetically</h1>
+<p>age.grp2 &lt;- floor((dat$age-36)/5)</p>
+<h1>almost worked, convert 0s to 1s</h1>
+<p>age.grp2[age.grp2 == 0] &lt;- 1</p>
+<h1>specify break-points with cut - good for creating factors</h1>
+<p>age.grp3 &lt;- cut(dat$age, breaks = c(40, 46, 51, 56, 61, 66), labels = FALSE, right = FALSE)</p>
+<h1>just want integer result, use findInterval</h1>
+<p>dat$age.grp &lt;- findInterval(dat$age, c(46, 51, 56, 61)) + 1</p>
+<h1>or seq(46, 61, by=5)</h1>
+<p>```</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>What about more complicated tests?</h2></header>
+            
+            
+            <section><p><code>r
+r &lt;- numeric(nrow(dat))
+for(i in seq_along(r)) {
+  tot &lt;- sum(dat[i, c('prev.surg', 'diabetes', 'obese')])
+  e &lt;- dat[i, 'exercise']
+  # this is the worst
+  if(e == 'None') {
+    if(dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; dat$obese[i]) {
+      r[i] &lt;- 10
+    } else if((!dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; dat$obese[i]) || (dat$prev.surg[i] &amp;&amp; !dat$diabetes[i] &amp;&amp; dat$obese[i]) || (dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; !dat$obese[i])) {
+      r[i] &lt;- 9
+    } else if((!dat$prev.surg[i] &amp;&amp; !dat$diabetes[i] &amp;&amp; dat$obese[i]) || (!dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; !dat$obese[i]) || (dat$prev.surg[i] &amp;&amp; !dat$diabetes[i] &amp;&amp; !dat$obese[i])) {
+      r[i] &lt;- 8
+    } else {
+      r[i] &lt;- 5
+    }
+  # better
+  } else if(e == 'Some') {
+    if(tot == 3) {
+      r[i] &lt;- 9
+    } else if(tot == 2) {
+      r[i] &lt;- 7
+    } else if(tot == 1) {
+      r[i] &lt;- 5
+    } else {
+      r[i] &lt;- 3
+    }
+  # reasonable
+  } else if(e == 'Moderate') {
+    r[i] &lt;- ifelse(tot == 3, 8, ifelse(tot == 2, 6, ifelse(tot == 1, 3, 1)))
+  # less intuitive, but less code
+  } else if(e == 'Lots') {
+    r[i] &lt;- c(0,2,5,7)[match(tot, 0:3)]
+  }
+}</code></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Vectorized solution is best</h2></header>
+            
+            
+            <section><p><code>r
+tots &lt;- rowSums(dat[, c('prev.surg', 'diabetes', 'obese')])
+dat$risk &lt;- ifelse(dat$exercise == 'None', ifelse(tots == 3, 10, ifelse(tots == 2, 9, ifelse(tots == 1, 8, 5))),
+  ifelse(dat$exercise == 'Some', ifelse(tots == 3, 9, ifelse(tots == 2, 7, ifelse(tots == 1, 5, 3))),
+    ifelse(dat$exercise == 'Moderate', c(1,3,6,8)[match(tots, 0:3)],
+      c(0,2,5,7)[match(tots, 0:3)]
+    )
+  )
+)</code></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Merging datasets</h2></header>
+            
+            
+            <section><ul>
+<li>
+<p>Merge on single value
+<code>r
+alldat &lt;- merge(dat, hosp)
+alldat &lt;- cbind(dat[match(hosp$id, dat$id),], hosp[,-match('id', names(hosp))])</code></p>
+</li>
+<li>
+<p>Merge on multiple values
+```r
+dat$key &lt;- sample(LETTERS, nrow(dat), replace = TRUE)
+hosp$key &lt;- sample(LETTERS, nrow(hosp), replace = TRUE)</p>
+</li>
+</ul>
+<p>alldat &lt;- merge(dat, hosp)
+dkey &lt;- with(dat, paste(id, key, sep = '|'))
+hkey &lt;- with(hosp, paste(id, key, sep = '|'))
+alldat &lt;- cbind(dat[match(hkey, dkey),], hosp[,-match(c('id','key'), names(hosp))])
+alldat &lt;- alldat[!is.na(alldat$id),]
+```</p>
+<h3>A custom merge using match can be much faster</h3></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Intermediate data set</h2></header>
+            
+            
+            <section><ul>
+<li>Convenient starting point and compressed
+```r</li>
+</ul>
+<h1>platform-independent path to working directory</h1>
+<p>work.dir &lt;- file.path('path','to','your','data')</p>
+<h1>save for later</h1>
+<p>save(dat, hosp, alldat, file = file.path(work.dir, 'demo_data.RData'))</p>
+<h1>pick up where you left off</h1>
+<p>load(file.path(work.dir, 'demo_data.RData'))
+```</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Validation</h2></header>
+            
+            
+            <section><ul>
+<li>Modularity - write functions for different form validations</li>
+<li>
+<p>Shorter functions are easier to maintain and test</p>
+</li>
+<li>
+<p>Goal: generate text file with errors by creating a vector of character strings</p>
+</li>
+</ul>
+<h3>Examine by ID or all IDs</h3>
+<ul>
+<li>Does information in one row inform another?</li>
+<li>Determine tasks that can be vectorized</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              14/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>How not to validate</h2></header>
+            
+            
+            <section><p><code>r
+errors &lt;- character()
+errors &lt;- NULL
+for(i in seq(nrow(x))) {
+  if(is.na(x$enroll.date[i])) errors &lt;- c(errors, 'no enroll date')
+  if(is.na(x$surgery.date[i])) errors &lt;- c(errors, 'no surgery date')
+  if(is.na(x$followup.date[i])) errors &lt;- c(errors, 'no followup date')
+  if(x$enroll.date[i] &gt; x$surgery.date[i]) errors &lt;- c(errors, 'must be enrolled before surgery')
+  if(x$surgery.date[i] &gt; x$followup.date[i])  errors &lt;- c(errors, 'must have surgery before follow-up')
+  if(x$height[i] &lt; 48 || x$height[i] &gt; 84) errors &lt;- c(errors, 'height is too short or tall')
+  if(x$on.insulin[i] &amp;&amp; !x$diabetes[i]) errors &lt;- c(errors, 'on insulin, but not diabetic')
+}</code></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              15/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Pre-define errors</h2></header>
+            
+            
+            <section><p>```r
+errors &lt;- character(7)</p>
+<h1>?sprintf</h1>
+<h1>use %s for variable place-holder</h1>
+<p>errors[1] &lt;- sprintf("no enroll date for rows [%s]", paste(which(is.na(x$enroll.date)), collapse=','))
+errors[2] &lt;- sprintf("no surgery date for rows [%s]", paste(which(is.na(x$surgery.date)), collapse=','))
+errors[3] &lt;- sprintf("no followup date for rows [%s]", paste(which(is.na(x$followup.date)), collapse=','))
+errors[4] &lt;- sprintf("must be enrolled before surgery for rows [%s]", paste(which(x$enroll.date &gt; x$surgery.date), collapse=','))
+errors[5] &lt;- sprintf("must have surgery before follow-up for rows [%s]", paste(which(x$surgery.date &gt; x$followup.date), collapse=','))
+errors[6] &lt;- sprintf("height is too short or tall for rows [%s]", paste(which(x$height &lt; 48 | x$height &gt; 84), collapse=','))
+errors[7] &lt;- sprintf("on insulin, but not diabetic [%s]", paste(which(x$on.insulin &amp; !x$diabetes), collapse=','))
+```</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              16/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>data.frame approach</h2></header>
+            
+            
+            <section><p>```r
+errorList &lt;- c(
+  miss.enroll = 'no enroll date',
+  miss.surgery = 'no surgery date',
+  miss.followup = 'no followup date',
+  late.enroll = 'must be enrolled before surgery',
+  late.surgery = 'must have surgery before follow-up',
+  bad.height = 'height is too short or tall',
+  bad.insulin = 'on insulin, but not diabetic'
+)
+errors &lt;- data.frame(matrix(NA, nrow=nrow(x), ncol=length(errorList)))
+names(errors) &lt;- names(errorList)</p>
+<h1>DRY applies here, especially if we checked more than 3 columns for missing</h1>
+<p>errors$miss.enroll &lt;- is.na(x$enroll.date)
+errors$miss.surgery &lt;- is.na(x$surgery.date)
+errors$miss.followup &lt;- is.na(x$followup.date)
+errors$late.enroll &lt;- x$enroll.date &gt; x$surgery.date
+errors$late.surgery &lt;- x$surgery.date &gt; x$followup.date
+errors$bad.height &lt;- x$height &lt; 48 | x$height &gt; 84
+errors$bad.insulin &lt;- x$on.insulin &amp; !x$diabetes
+errorMsg &lt;- lapply(names(which(colSums(errors, na.rm=TRUE) &gt; 0)), FUN=function(i) {
+  sprintf("%s for rows [%s]", errorList[i], paste(which(errors[,i]), collapse=','))
+})
+```</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              17/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Some things must be done one ID at a time</h2></header>
+            
+            
+            <section><p><code>r
+checkHospitalization &lt;- function(x) {
+  errorList &lt;- c(
+    bad.dose = 'time between doses is too short',
+    bad.admit = 'first dose given too early',
+    need.dose = 'dose required but missing',
+    extra.dose = 'dose given but not required'
+  )
+  uids &lt;- unique(x$id)
+  # don't use subset
+  z &lt;- lapply(uids, FUN=function(i) checkHospitalizationById(subset(x, id == i), errorList))
+  # predefine list size, easier to debug
+  zz &lt;- vector('list', length(uids))
+  for(i in seq_along(uids)) {
+    zz[[i]] &lt;- checkHospitalizationById(x[x$id == uids[i],], errorList)
+  }
+  zzz &lt;- do.call(rbind, zz)
+  errorMsg &lt;- lapply(colnames(zzz), FUN=function(i) {
+    badix &lt;- which(nchar(zzz[,i]) &gt; 0)
+    if(length(badix)) {
+      sprintf("%s for id [%s] at rows [%s]", errorList[i], rownames(zzz)[badix], zzz[badix,i])
+    }
+  })
+  errorMsg
+}</code></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              18/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: examples.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Putting it together</h2></header>
+            
+            
+            <section><p>```r
+dem.errors &lt;- checkDemographics(dat)</p>
+<h1>when testing, work on a smaller subset</h1>
+<p>hosp.errors &lt;- checkHospitalization(alldat[1:1000,])
+all.errors &lt;- unlist(c(dem.errors, hosp.errors))</p>
+<h1>write out errors</h1>
+<p>write(all.errors, file = file.path(work.dir, 'validation_errors.txt'))
+```</p>
+<h3>Check out <a href="http://datatable.r-forge.r-project.org/">data.table</a> and <a href="https://github.com/hadley/dplyr">dplyr</a></h3></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="examples.md">examples.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              19/19
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">The R Seminar</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-2" class="sub">
+          <th><a href="#slide2">Code Efficiency</a></th>
+          <td><a href="#slide2">2</a></td>
+        </tr>
+        
+        <tr id="toc-row-3" class="sub">
+          <th><a href="#slide3">Key Concepts</a></th>
+          <td><a href="#slide3">3</a></td>
+        </tr>
+        
+        <tr id="toc-row-4" class="sub">
+          <th><a href="#slide4">Starting Point</a></th>
+          <td><a href="#slide4">4</a></td>
+        </tr>
+        
+        <tr id="toc-row-5" class="sub">
+          <th><a href="#slide5">Assign a new column</a></th>
+          <td><a href="#slide5">5</a></td>
+        </tr>
+        
+        <tr id="toc-row-6" class="sub">
+          <th><a href="#slide6">Convert TRUE/FALSE to 1/0</a></th>
+          <td><a href="#slide6">6</a></td>
+        </tr>
+        
+        <tr id="toc-row-7" class="sub">
+          <th><a href="#slide7">Converting strings to dates</a></th>
+          <td><a href="#slide7">7</a></td>
+        </tr>
+        
+        <tr id="toc-row-8" class="sub">
+          <th><a href="#slide8">Converting strings to date-times</a></th>
+          <td><a href="#slide8">8</a></td>
+        </tr>
+        
+        <tr id="toc-row-9" class="sub">
+          <th><a href="#slide9">Too many tests</a></th>
+          <td><a href="#slide9">9</a></td>
+        </tr>
+        
+        <tr id="toc-row-10" class="sub">
+          <th><a href="#slide10">What about more complicated tests?</a></th>
+          <td><a href="#slide10">10</a></td>
+        </tr>
+        
+        <tr id="toc-row-11" class="sub">
+          <th><a href="#slide11">Vectorized solution is best</a></th>
+          <td><a href="#slide11">11</a></td>
+        </tr>
+        
+        <tr id="toc-row-12" class="sub">
+          <th><a href="#slide12">Merging datasets</a></th>
+          <td><a href="#slide12">12</a></td>
+        </tr>
+        
+        <tr id="toc-row-13" class="sub">
+          <th><a href="#slide13">Intermediate data set</a></th>
+          <td><a href="#slide13">13</a></td>
+        </tr>
+        
+        <tr id="toc-row-14" class="sub">
+          <th><a href="#slide14">Validation</a></th>
+          <td><a href="#slide14">14</a></td>
+        </tr>
+        
+        <tr id="toc-row-15" class="sub">
+          <th><a href="#slide15">How not to validate</a></th>
+          <td><a href="#slide15">15</a></td>
+        </tr>
+        
+        <tr id="toc-row-16" class="sub">
+          <th><a href="#slide16">Pre-define errors</a></th>
+          <td><a href="#slide16">16</a></td>
+        </tr>
+        
+        <tr id="toc-row-17" class="sub">
+          <th><a href="#slide17">data.frame approach</a></th>
+          <td><a href="#slide17">17</a></td>
+        </tr>
+        
+        <tr id="toc-row-18" class="sub">
+          <th><a href="#slide18">Some things must be done one ID at a time</a></th>
+          <td><a href="#slide18">18</a></td>
+        </tr>
+        
+        <tr id="toc-row-19" class="sub">
+          <th><a href="#slide19">Putting it together</a></th>
+          <td><a href="#slide19">19</a></td>
+        </tr>
+        
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>
