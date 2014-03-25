@@ -50,7 +50,7 @@ Transformations should create intermediate data sets.
 
 ---
 
-## What's the best way to assign a new column?
+## Assign a new column
 ```r
 x <- data.frame(id=seq(1000000))
 s <- sample(nrow(x))
@@ -78,7 +78,6 @@ x$s <- NA
 x$s <- s
 ```
 
-### Answer: it doesn't matter
 ```r
 ?Extract
 ```
@@ -94,8 +93,6 @@ x*1
 mode(x) <- 'numeric'
 ```
 
-### Answer: it doesn't matter
-
 Some optimizations just don't matter.
 
 It's good to know there's more than one way to do it.
@@ -104,53 +101,62 @@ Choose your preference weighing how easy it is to type or read -- then be consis
 
 ---
 
-## point: optimization you shouldn't care about, or pre-optimization
-# easiest to type/read/understand -- preference, consistent
-
-dat$prev.surg <- (dat$prev.surg == 'Yes')+0
-dat$bmi <- 703 * dat$weight / dat$height^2
-dat$obese <- (dat$bmi >= 30)+0
-
-## converting strings to dates
-# assign one at a time
+## Converting strings to dates
+* This violates **don't repeat yourself**
+```r
 dat$enroll.date <- as.Date(dat$enroll.date, format = '%Y-%m-%d')
 dat$surgery.date <- as.Date(dat$surgery.date, format = '%Y-%m-%d')
 dat$followup.date <- as.Date(dat$followup.date, format = '%Y-%m-%d')
+```
 
-### KEY CONCEPT 1: DRY, don't repeat yourself
-
-# name date columns
+```r
+* name date columns
 date.vars <- c('enroll.date', 'surgery.date', 'followup.date')
-# Hmisc::Cs doesn't require quotes
+```
+* Hmisc::Cs doesn't require quotes
+```r
 date.vars <- Cs(enroll.date, surgery.date, followup.date)
-# rely on good column names
+```
+* rely on good column names
+```r
 date.vars <- grep('date$', names(dat), value=TRUE)
-
-fakedat <- dat[,date.vars]
-# loop over date variables
+```
+* loop over date variables
+```r
 for(i in date.vars) {
-  fakedat[,i] <- as.Date(dat[,i], format = '%Y-%m-%d')
+  dat[,i] <- as.Date(dat[,i], format = '%Y-%m-%d')
 }
-# cannot re-assign all at once
+```
+* cannot re-assign all at once
+```r
 dat[,date.vars] <- as.Date(dat[,date.vars], format = '%Y-%m-%d')
-# lapply works
+```
+* lapply works
+```r
 dat[,date.vars] <- lapply(dat[,date.vars], as.Date, format = '%Y-%m-%d')
-# ANSWER: I like for loop
+```
 
-## converting strings to date-times
-# good idea to specify timezone - default relies on locale so results may vary on user/computer/location
-# UTC will avoid DST problems
+---
+
+## Converting strings to date-times
+* Specify the timezone -- default relies on locale so results may vary on user/computer/location
+* UTC will avoid daylight savings problems
+```r
 time.vars <- grep('time$', names(hosp), value=TRUE)
-fakehosp <- hosp[,time.vars]
 for(i in time.vars) {
-  fakehosp[,i] <- as.POSIXct(fakehosp[,i], format = '%Y-%m-%d %H:%M', tz = 'UTC')
+  hosp[,i] <- as.POSIXct(hosp[,i], format = '%Y-%m-%d %H:%M', tz = 'UTC')
 }
+```
 
-# consider using function if called from multiple locations in code
+* Consider using function if called from multiple locations in code
+```r
 dtCT <- function(x, format = '%Y-%m-%d %H:%M', tz = 'UTC', ...) as.POSIXct(x, format = format, tz = tz, ...)
 hosp[,time.vars] <- lapply(hosp[,time.vars], dtCT)
+```
 
-# check out library(lubridate)
+### Check out [lubridate](https://github.com/hadley/lubridate)
+
+---
 
 ## too many tests
 # when is an ifelse statement too long?  what are the alternatives?
