@@ -54,26 +54,20 @@ Transformations should create intermediate data sets.
 ```r
 x <- data.frame(id=seq(1000000))
 s <- sample(nrow(x))
-```
 
-* dollar sign?
-```r
+# dollar sign
 x$s1 <- s
-```
-* single bracket with comma?
-```r
+
+# single bracket with comma
 x[,'s2'] <- s
-```
-* single bracket?
-```r
+
+# single bracket
 x['s3'] <- s
-```
-* double bracket?
-```r
+
+# double bracket
 x[['s4']] <- s
-```
-* assign default (NA), then value?
-```r
+
+# assign default (NA), then value
 x$s <- NA
 x$s <- s
 ```
@@ -102,8 +96,8 @@ Choose your preference weighing how easy it is to type or read -- then be consis
 ---
 
 ## Converting strings to dates
-* This violates **don't repeat yourself**
 ```r
+# This violates **don't repeat yourself**
 dat$enroll.date <- as.Date(dat$enroll.date, format = '%Y-%m-%d')
 dat$surgery.date <- as.Date(dat$surgery.date, format = '%Y-%m-%d')
 dat$followup.date <- as.Date(dat$followup.date, format = '%Y-%m-%d')
@@ -155,27 +149,24 @@ hosp[,time.vars] <- lapply(hosp[,time.vars], dtCT)
 * When is an ifelse statement too long and what are alternatives?
 ```r
 age.grp <- ifelse(dat$age < 46, 1, ifelse(dat$age < 51, 2, ifelse(dat$age < 56, 3, ifelse(dat$age < 61, 4, 5))))
-```
+
 # solve arithmetically
-```r
 age.grp2 <- floor((dat$age-36)/5)
-```
 # almost worked, convert 0s to 1s
-```r
 age.grp2[age.grp2 == 0] <- 1
-```
+
 # specify break-points with cut - good for creating factors
-```r
 age.grp3 <- cut(dat$age, breaks = c(40, 46, 51, 56, 61, 66), labels = FALSE, right = FALSE)
-```
+
 # just want integer result, use findInterval
-```r
-dat$age.grp <- findInterval(dat$age, c(46, 51, 56, 61)) + 1 # seq(46, 61, by=5)
+dat$age.grp <- findInterval(dat$age, c(46, 51, 56, 61)) + 1
+# or seq(46, 61, by=5)
 ```
 
 ---
 
-# what about more complicated tests?
+## What about more complicated tests?
+```r
 r <- numeric(nrow(dat))
 for(i in seq_along(r)) {
   tot <- sum(dat[i, c('prev.surg', 'diabetes', 'obese')])
@@ -210,6 +201,9 @@ for(i in seq_along(r)) {
     r[i] <- c(0,2,5,7)[match(tot, 0:3)]
   }
 }
+```
+
+---
 
 # vectorized solution
 tots <- rowSums(dat[, c('prev.surg', 'diabetes', 'obese')])
