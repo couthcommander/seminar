@@ -205,7 +205,8 @@ for(i in seq_along(r)) {
 
 ---
 
-# vectorized solution
+## Vectorized solution is best
+```r
 tots <- rowSums(dat[, c('prev.surg', 'diabetes', 'obese')])
 dat$risk <- ifelse(dat$exercise == 'None', ifelse(tots == 3, 10, ifelse(tots == 2, 9, ifelse(tots == 1, 8, 5))),
   ifelse(dat$exercise == 'Some', ifelse(tots == 3, 9, ifelse(tots == 2, 7, ifelse(tots == 1, 5, 3))),
@@ -214,14 +215,19 @@ dat$risk <- ifelse(dat$exercise == 'None', ifelse(tots == 3, 10, ifelse(tots == 
     )
   )
 )
+```
 
-## merging datasets
-# merge on single value
+---
+
+## Merging datasets
+* Merge on single value
+```r
 alldat <- merge(dat, hosp)
 alldat <- cbind(dat[match(hosp$id, dat$id),], hosp[,-match('id', names(hosp))])
-# merge works well
+```
 
-# merge on multiple values
+* Merge on multiple values
+```r
 dat$key <- sample(LETTERS, nrow(dat), replace = TRUE)
 hosp$key <- sample(LETTERS, nrow(hosp), replace = TRUE)
 
@@ -230,7 +236,9 @@ dkey <- with(dat, paste(id, key, sep = '|'))
 hkey <- with(hosp, paste(id, key, sep = '|'))
 alldat <- cbind(dat[match(hkey, dkey),], hosp[,-match(c('id','key'), names(hosp))])
 alldat <- alldat[!is.na(alldat$id),]
-# custom merge using match is faster, though more complicated (write a function to generalize!)
+```
+
+---
 
 ## finish transformations, create intermediate dataset
 # easier to pick up from here
@@ -330,6 +338,7 @@ checkHospitalization <- function(x) {
   })
   errorMsg
 }
+### Check out [data.table](http://datatable.r-forge.r-project.org/)
 
 dem.errors <- checkDemographics(dat)
 hosp.errors <- checkHospitalization(alldat[1:1000,])
