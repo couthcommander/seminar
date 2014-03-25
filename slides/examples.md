@@ -29,36 +29,60 @@ This talk is specifically tailored to the R programming language, but you could 
 
 ---
 
-library(Hmisc)
+Inspiration for this talk came from examining an R script used for data validation.
+This is fairly normal task, and it provided several examples of things worth thinking about when writing such a script.
+The data sets provided were simulated (and probably aren't very realistic).
 
-# platform-independent file path
-work.dir <- file.path('~', 'code', 'rcode', 'seminar')
-setwd(work.dir)
+In a perfect world, this data would be accompanied by a data dictionary or meta-data that would perform the validation.
 
-# simulated datasets, forgive unrealistic values
-dat <- read.csv(file.path(work.dir, 'demo_data.csv'), stringsAsFactors=FALSE)
-hosp <- read.csv(file.path(work.dir, 'hosp_data.csv'), stringsAsFactors=FALSE)
+---
 
-# start with transformations
-# add/edit/delete columns
-# merge datasets
+## Starting Point
 
-## what's the best way to assign a new column?
+Before validating your data, transform your data.
+This may including adding, editing, or removing columns, as well as merging multiple data sets.
+Most transformation operations can be vectorized.
+
+Transformations should create intermediate data sets.
+1. These can be saved in compressed formats
+2. These provide checkpoints that can be utilized instead of re-running entire scripts
+
+---
+
+## What's the best way to assign a new column?
+```r
 x <- data.frame(id=seq(1000000))
 s <- sample(nrow(x))
-# dollar sign
+```
+
+* dollar sign?
+```r
 x$s1 <- s
-# single bracket with column
+```
+* single bracket with comma?
+```r
 x[,'s2'] <- s
-# single bracket
+```
+* single bracket
+```r
 x['s3'] <- s
-# double bracket
+```
+* double bracket
+```r
 x[['s4']] <- s
-# assign default (NA), then value
+```
+* assign default (NA), then value
+```r
 x$s <- NA
 x$s <- s
-# ANSWER: doesn't matter (with assignment)
-# ?Extract
+```
+
+### Answer: it doesn't matter - read more:
+```r
+?Extract
+```
+
+---
 
 ## convert TRUE/FALSE to 1/0
 x <- sample(TRUE:FALSE, 10, replace=TRUE)
