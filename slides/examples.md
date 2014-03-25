@@ -107,32 +107,25 @@ Choose your preference weighing how easy it is to type or read -- then be consis
 dat$enroll.date <- as.Date(dat$enroll.date, format = '%Y-%m-%d')
 dat$surgery.date <- as.Date(dat$surgery.date, format = '%Y-%m-%d')
 dat$followup.date <- as.Date(dat$followup.date, format = '%Y-%m-%d')
-```
 
-```r
-* name date columns
+# name date columns
 date.vars <- c('enroll.date', 'surgery.date', 'followup.date')
-```
-* Hmisc::Cs doesn't require quotes
-```r
+
+# Hmisc::Cs doesn't require quotes
 date.vars <- Cs(enroll.date, surgery.date, followup.date)
-```
-* rely on good column names
-```r
+
+# rely on good column names
 date.vars <- grep('date$', names(dat), value=TRUE)
-```
-* loop over date variables
-```r
+
+# loop over date variables
 for(i in date.vars) {
   dat[,i] <- as.Date(dat[,i], format = '%Y-%m-%d')
 }
-```
-* cannot re-assign all at once
-```r
+
+# cannot re-assign all at once
 dat[,date.vars] <- as.Date(dat[,date.vars], format = '%Y-%m-%d')
-```
-* lapply works
-```r
+
+# lapply works
 dat[,date.vars] <- lapply(dat[,date.vars], as.Date, format = '%Y-%m-%d')
 ```
 
@@ -158,17 +151,29 @@ hosp[,time.vars] <- lapply(hosp[,time.vars], dtCT)
 
 ---
 
-## too many tests
-# when is an ifelse statement too long?  what are the alternatives?
+## Too many tests
+* When is an ifelse statement too long and what are alternatives?
+```r
 age.grp <- ifelse(dat$age < 46, 1, ifelse(dat$age < 51, 2, ifelse(dat$age < 56, 3, ifelse(dat$age < 61, 4, 5))))
+```
 # solve arithmetically
+```r
 age.grp2 <- floor((dat$age-36)/5)
+```
 # almost worked, convert 0s to 1s
+```r
 age.grp2[age.grp2 == 0] <- 1
+```
 # specify break-points with cut - good for creating factors
+```r
 age.grp3 <- cut(dat$age, breaks = c(40, 46, 51, 56, 61, 66), labels = FALSE, right = FALSE)
+```
 # just want integer result, use findInterval
+```r
 dat$age.grp <- findInterval(dat$age, c(46, 51, 56, 61)) + 1 # seq(46, 61, by=5)
+```
+
+---
 
 # what about more complicated tests?
 r <- numeric(nrow(dat))
