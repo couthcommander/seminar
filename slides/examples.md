@@ -44,6 +44,7 @@ This may including adding, editing, or removing columns, as well as merging mult
 Most transformation operations can be vectorized.
 
 Transformations should create intermediate data sets.
+
 1. These can be saved in compressed formats
 2. These provide checkpoints that can be utilized instead of re-running entire scripts
 
@@ -63,34 +64,45 @@ x$s1 <- s
 ```r
 x[,'s2'] <- s
 ```
-* single bracket
+* single bracket?
 ```r
 x['s3'] <- s
 ```
-* double bracket
+* double bracket?
 ```r
 x[['s4']] <- s
 ```
-* assign default (NA), then value
+* assign default (NA), then value?
 ```r
 x$s <- NA
 x$s <- s
 ```
 
-### Answer: it doesn't matter - read more:
+### Answer: it doesn't matter
 ```r
 ?Extract
 ```
 
 ---
 
-## convert TRUE/FALSE to 1/0
+## Convert TRUE/FALSE to 1/0
+```r
 x <- sample(TRUE:FALSE, 10, replace=TRUE)
 as.numeric(x)
 x+0
 x*1
 mode(x) <- 'numeric'
-# ANSWER: doesn't matter
+```
+
+### Answer: it doesn't matter
+
+Some optimizations just don't matter.
+
+It's good to know there's more than one way to do it.
+
+Choose your preference weighing how easy it is to type or read -- then be consistent.
+
+---
 
 ## point: optimization you shouldn't care about, or pre-optimization
 # easiest to type/read/understand -- preference, consistent
