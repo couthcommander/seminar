@@ -8,4 +8,5 @@ R seminar
 
 * See slides/examples.md for the presentation.
 
-* The command **landslide examples.md** was supposed to create an HTML5 version, but R code examples didn't come through well.
+* The command **landslide examples.md** created an HTML5 version, slides/presentation.html.
+  * See [landslide](https://github.com/adamzap/landslide)

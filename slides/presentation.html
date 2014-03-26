@@ -92,14 +92,20 @@
 <li>How long does it take to modify?</li>
 <li>How long does it take to run?</li>
 </ol>
-<p>This talk is specifically tailored to the R programming language, but you could certain extend the principles to other languages.</p>
+<p>This talk is specifically tailored to the R programming language, but you could certainly extend the principles to other languages.</p>
 <ul>
-<li>It's a good thing if other people can read and understand your code</li>
+<li>It's a good thing if other people can read and understand your code<ul>
 <li>It's even better if you can understand your code when you revisit it three years later</li>
-<li>It's a good thing if your code runs start to finish without intervention</li>
+</ul>
+</li>
+<li>It's a good thing if your code runs start to finish without intervention<ul>
 <li>It's even better if you can specify at what point to start or finish</li>
-<li>It's a good thing if you can optimize code so that it runs in 1 minute instead of 10 minutes</li>
+</ul>
+</li>
+<li>It's a good thing if you can optimize code so that it runs in 1 minute instead of 10 minutes<ul>
 <li>It's even better if you didn't spend 4 hours (pre-optimization)</li>
+</ul>
+</li>
 </ul></section>
             
           </div>
@@ -199,29 +205,36 @@ Most transformation operations can be vectorized.</p>
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Assign a new column</h2></header>
             
             
-            <section><p>```r
-x &lt;- data.frame(id=seq(1000000))
-s &lt;- sample(nrow(x))</p>
-<h1>dollar sign</h1>
-<p>x$s1 &lt;- s</p>
-<h1>single bracket with comma</h1>
-<p>x[,'s2'] &lt;- s</p>
-<h1>single bracket</h1>
-<p>x['s3'] &lt;- s</p>
-<h1>double bracket</h1>
-<p>x[['s4']] &lt;- s</p>
-<h1>assign default (NA), then value</h1>
-<p>x$s &lt;- NA
-x$s &lt;- s
-```</p>
-<p><code>r
-?Extract</code></p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> x <span class="o">&lt;-</span> data.frame<span class="p">(</span>id<span class="o">=</span>seq<span class="p">(</span><span class="m">1000000</span><span class="p">))</span>
+<span class="lineno"> 2</span> s <span class="o">&lt;-</span> sample<span class="p">(</span>nrow<span class="p">(</span>x<span class="p">))</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="c1"># dollar sign</span>
+<span class="lineno"> 5</span> x<span class="o">$</span>s1 <span class="o">&lt;-</span> s
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="c1"># single bracket with comma</span>
+<span class="lineno"> 8</span> x<span class="p">[,</span><span class="s">&#39;s2&#39;</span><span class="p">]</span> <span class="o">&lt;-</span> s
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="c1"># single bracket</span>
+<span class="lineno">11</span> x<span class="p">[</span><span class="s">&#39;s3&#39;</span><span class="p">]</span> <span class="o">&lt;-</span> s
+<span class="lineno">12</span> 
+<span class="lineno">13</span> <span class="c1"># double bracket</span>
+<span class="lineno">14</span> x<span class="p">[[</span><span class="s">&#39;s4&#39;</span><span class="p">]]</span> <span class="o">&lt;-</span> s
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="c1"># assign default (NA), then value</span>
+<span class="lineno">17</span> x<span class="o">$</span>s <span class="o">&lt;-</span> <span class="kc">NA</span>
+<span class="lineno">18</span> x<span class="o">$</span>s <span class="o">&lt;-</span> s
+</pre></div>
+
+<h3>read more</h3>
+<div class="highlight"><pre><span class="lineno">1</span> <span class="o">?</span>Extract
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -245,18 +258,19 @@ x$s &lt;- s
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Convert TRUE/FALSE to 1/0</h2></header>
             
             
-            <section><p><code>r
-x &lt;- sample(TRUE:FALSE, 10, replace=TRUE)
-as.numeric(x)
-x+0
-x*1
-mode(x) &lt;- 'numeric'</code></p>
+            <section><div class="highlight"><pre><span class="lineno">1</span> x <span class="o">&lt;-</span> sample<span class="p">(</span><span class="kc">TRUE</span><span class="o">:</span><span class="kc">FALSE</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> replace<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="lineno">2</span> as.numeric<span class="p">(</span>x<span class="p">)</span>
+<span class="lineno">3</span> x<span class="m">+0</span>
+<span class="lineno">4</span> x<span class="o">*</span><span class="m">1</span>
+<span class="lineno">5</span> mode<span class="p">(</span>x<span class="p">)</span> <span class="o">&lt;-</span> <span class="s">&#39;numeric&#39;</span>
+</pre></div>
+
 <p>Some optimizations just don't matter.</p>
 <p>It's good to know there's more than one way to do it.</p>
 <p>Choose your preference weighing how easy it is to type or read -- then be consistent.</p></section>
@@ -283,32 +297,36 @@ mode(x) &lt;- 'numeric'</code></p>
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Converting strings to dates</h2></header>
             
             
-            <section><p>```r</p>
-<h1>This violates <strong>don't repeat yourself</strong></h1>
-<p>dat$enroll.date &lt;- as.Date(dat$enroll.date, format = '%Y-%m-%d')
-dat$surgery.date &lt;- as.Date(dat$surgery.date, format = '%Y-%m-%d')
-dat$followup.date &lt;- as.Date(dat$followup.date, format = '%Y-%m-%d')</p>
-<h1>name date columns</h1>
-<p>date.vars &lt;- c('enroll.date', 'surgery.date', 'followup.date')</p>
-<h1>Hmisc::Cs doesn't require quotes</h1>
-<p>date.vars &lt;- Cs(enroll.date, surgery.date, followup.date)</p>
-<h1>rely on good column names</h1>
-<p>date.vars &lt;- grep('date$', names(dat), value=TRUE)</p>
-<h1>loop over date variables</h1>
-<p>for(i in date.vars) {
-  dat[,i] &lt;- as.Date(dat[,i], format = '%Y-%m-%d')
-}</p>
-<h1>cannot re-assign all at once</h1>
-<p>dat[,date.vars] &lt;- as.Date(dat[,date.vars], format = '%Y-%m-%d')</p>
-<h1>lapply works</h1>
-<p>dat[,date.vars] &lt;- lapply(dat[,date.vars], as.Date, format = '%Y-%m-%d')
-```</p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> <span class="c1"># This violates **don&#39;t repeat yourself**</span>
+<span class="lineno"> 2</span> dat<span class="o">$</span>enroll.date <span class="o">&lt;-</span> as.Date<span class="p">(</span>dat<span class="o">$</span>enroll.date<span class="p">,</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">)</span>
+<span class="lineno"> 3</span> dat<span class="o">$</span>surgery.date <span class="o">&lt;-</span> as.Date<span class="p">(</span>dat<span class="o">$</span>surgery.date<span class="p">,</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">)</span>
+<span class="lineno"> 4</span> dat<span class="o">$</span>followup.date <span class="o">&lt;-</span> as.Date<span class="p">(</span>dat<span class="o">$</span>followup.date<span class="p">,</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">)</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="c1"># name date columns</span>
+<span class="lineno"> 7</span> date.vars <span class="o">&lt;-</span> c<span class="p">(</span><span class="s">&#39;enroll.date&#39;</span><span class="p">,</span> <span class="s">&#39;surgery.date&#39;</span><span class="p">,</span> <span class="s">&#39;followup.date&#39;</span><span class="p">)</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="c1"># Hmisc::Cs doesn&#39;t require quotes</span>
+<span class="lineno">10</span> date.vars <span class="o">&lt;-</span> Cs<span class="p">(</span>enroll.date<span class="p">,</span> surgery.date<span class="p">,</span> followup.date<span class="p">)</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="c1"># rely on good column names</span>
+<span class="lineno">13</span> date.vars <span class="o">&lt;-</span> grep<span class="p">(</span><span class="s">&#39;date$&#39;</span><span class="p">,</span> names<span class="p">(</span>dat<span class="p">),</span> value<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span> <span class="c1"># loop over date variables</span>
+<span class="lineno">16</span> <span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> date.vars<span class="p">)</span> <span class="p">{</span>
+<span class="lineno">17</span>   dat<span class="p">[,</span>i<span class="p">]</span> <span class="o">&lt;-</span> as.Date<span class="p">(</span>dat<span class="p">[,</span>i<span class="p">],</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">)</span>
+<span class="lineno">18</span> <span class="p">}</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="c1"># lapply works</span>
+<span class="lineno">21</span> dat<span class="p">[,</span>date.vars<span class="p">]</span> <span class="o">&lt;-</span> 
+<span class="lineno">22</span>   lapply<span class="p">(</span>dat<span class="p">[,</span>date.vars<span class="p">],</span> as.Date<span class="p">,</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">)</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -332,29 +350,28 @@ dat$followup.date &lt;- as.Date(dat$followup.date, format = '%Y-%m-%d')</p>
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Converting strings to date-times</h2></header>
             
             
-            <section><ul>
-<li>Specify the timezone -- default relies on locale so results may vary on user/computer/location</li>
-<li>
-<p>UTC will avoid daylight savings problems
-<code>r
-time.vars &lt;- grep('time$', names(hosp), value=TRUE)
-for(i in time.vars) {
-  hosp[,i] &lt;- as.POSIXct(hosp[,i], format = '%Y-%m-%d %H:%M', tz = 'UTC')
-}</code></p>
-</li>
-<li>
-<p>Consider using function if called from multiple locations in code
-<code>r
-dtCT &lt;- function(x, format = '%Y-%m-%d %H:%M', tz = 'UTC', ...) as.POSIXct(x, format = format, tz = tz, ...)
-hosp[,time.vars] &lt;- lapply(hosp[,time.vars], dtCT)</code></p>
-</li>
-</ul>
+            <section><h3>Specify the timezone -- default relies on locale so results may vary on user/computer/location</h3>
+<h3>UTC will avoid daylight savings problems</h3>
+<div class="highlight"><pre><span class="lineno">1</span> time.vars <span class="o">&lt;-</span> grep<span class="p">(</span><span class="s">&#39;time$&#39;</span><span class="p">,</span> names<span class="p">(</span>hosp<span class="p">),</span> value<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="lineno">2</span> <span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> time.vars<span class="p">)</span> <span class="p">{</span>
+<span class="lineno">3</span>   hosp<span class="p">[,</span>i<span class="p">]</span> <span class="o">&lt;-</span>
+<span class="lineno">4</span>     as.POSIXct<span class="p">(</span>hosp<span class="p">[,</span>i<span class="p">],</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d %H:%M&#39;</span><span class="p">,</span> tz <span class="o">=</span> <span class="s">&#39;UTC&#39;</span><span class="p">)</span>
+<span class="lineno">5</span> <span class="p">}</span>
+</pre></div>
+
+<h3>Consider using function if called from multiple locations in code</h3>
+<div class="highlight"><pre><span class="lineno">1</span> dtCT <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">,</span> format <span class="o">=</span> <span class="s">&#39;%Y-%m-%d %H:%M&#39;</span><span class="p">,</span> tz <span class="o">=</span> <span class="s">&#39;UTC&#39;</span><span class="p">,</span> <span class="kc">...</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">2</span>   as.POSIXct<span class="p">(</span>x<span class="p">,</span> format <span class="o">=</span> format<span class="p">,</span> tz <span class="o">=</span> tz<span class="p">,</span> <span class="kc">...</span><span class="p">)</span>
+<span class="lineno">3</span> <span class="p">}</span>
+<span class="lineno">4</span> hosp<span class="p">[,</span>time.vars<span class="p">]</span> <span class="o">&lt;-</span> lapply<span class="p">(</span>hosp<span class="p">[,</span>time.vars<span class="p">],</span> dtCT<span class="p">)</span>
+</pre></div>
+
 <h3>Check out <a href="https://github.com/hadley/lubridate">lubridate</a></h3></section>
             
           </div>
@@ -379,27 +396,36 @@ hosp[,time.vars] &lt;- lapply(hosp[,time.vars], dtCT)</code></p>
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Too many tests</h2></header>
             
             
-            <section><ul>
-<li>When is an ifelse statement too long and what are alternatives?
-```r
-age.grp &lt;- ifelse(dat$age &lt; 46, 1, ifelse(dat$age &lt; 51, 2, ifelse(dat$age &lt; 56, 3, ifelse(dat$age &lt; 61, 4, 5))))</li>
-</ul>
-<h1>solve arithmetically</h1>
-<p>age.grp2 &lt;- floor((dat$age-36)/5)</p>
-<h1>almost worked, convert 0s to 1s</h1>
-<p>age.grp2[age.grp2 == 0] &lt;- 1</p>
-<h1>specify break-points with cut - good for creating factors</h1>
-<p>age.grp3 &lt;- cut(dat$age, breaks = c(40, 46, 51, 56, 61, 66), labels = FALSE, right = FALSE)</p>
-<h1>just want integer result, use findInterval</h1>
-<p>dat$age.grp &lt;- findInterval(dat$age, c(46, 51, 56, 61)) + 1</p>
-<h1>or seq(46, 61, by=5)</h1>
-<p>```</p></section>
+            <section><h3>When is an ifelse statement too long and what are alternatives?</h3>
+<div class="highlight"><pre><span class="lineno"> 1</span> age.grp <span class="o">&lt;-</span> ifelse<span class="p">(</span>dat<span class="o">$</span>age <span class="o">&lt;</span> <span class="m">46</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span>
+<span class="lineno"> 2</span>   ifelse<span class="p">(</span>dat<span class="o">$</span>age <span class="o">&lt;</span> <span class="m">51</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span>
+<span class="lineno"> 3</span>     ifelse<span class="p">(</span>dat<span class="o">$</span>age <span class="o">&lt;</span> <span class="m">56</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span>
+<span class="lineno"> 4</span>       ifelse<span class="p">(</span>dat<span class="o">$</span>age <span class="o">&lt;</span> <span class="m">61</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+<span class="lineno"> 5</span>     <span class="p">)</span>
+<span class="lineno"> 6</span>   <span class="p">)</span>
+<span class="lineno"> 7</span> <span class="p">)</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="c1"># solve arithmetically</span>
+<span class="lineno">10</span> age.grp2 <span class="o">&lt;-</span> floor<span class="p">((</span>dat<span class="o">$</span>age<span class="m">-36</span><span class="p">)</span><span class="o">/</span><span class="m">5</span><span class="p">)</span>
+<span class="lineno">11</span> <span class="c1"># almost worked, convert 0s to 1s</span>
+<span class="lineno">12</span> age.grp2<span class="p">[</span>age.grp2 <span class="o">==</span> <span class="m">0</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="m">1</span>
+<span class="lineno">13</span> 
+<span class="lineno">14</span> <span class="c1"># specify break-points with cut - good for creating factors</span>
+<span class="lineno">15</span> age.grp3 <span class="o">&lt;-</span> cut<span class="p">(</span>dat<span class="o">$</span>age<span class="p">,</span> breaks <span class="o">=</span> c<span class="p">(</span><span class="m">40</span><span class="p">,</span> <span class="m">46</span><span class="p">,</span> <span class="m">51</span><span class="p">,</span> <span class="m">56</span><span class="p">,</span> <span class="m">61</span><span class="p">,</span> <span class="m">66</span><span class="p">),</span>
+<span class="lineno">16</span>   labels <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> right <span class="o">=</span> <span class="kc">FALSE</span>
+<span class="lineno">17</span> <span class="p">)</span>
+<span class="lineno">18</span> 
+<span class="lineno">19</span> <span class="c1"># just want integer result, use findInterval</span>
+<span class="lineno">20</span> dat<span class="o">$</span>age.grp <span class="o">&lt;-</span> findInterval<span class="p">(</span>dat<span class="o">$</span>age<span class="p">,</span> c<span class="p">(</span><span class="m">46</span><span class="p">,</span> <span class="m">51</span><span class="p">,</span> <span class="m">56</span><span class="p">,</span> <span class="m">61</span><span class="p">))</span> <span class="o">+</span> <span class="m">1</span>
+<span class="lineno">21</span> <span class="c1"># or seq(46, 61, by=5)</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -423,47 +449,56 @@ age.grp &lt;- ifelse(dat$age &lt; 46, 1, ifelse(dat$age &lt; 51, 2, ifelse(dat$a
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>What about more complicated tests?</h2></header>
             
             
-            <section><p><code>r
-r &lt;- numeric(nrow(dat))
-for(i in seq_along(r)) {
-  tot &lt;- sum(dat[i, c('prev.surg', 'diabetes', 'obese')])
-  e &lt;- dat[i, 'exercise']
-  # this is the worst
-  if(e == 'None') {
-    if(dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; dat$obese[i]) {
-      r[i] &lt;- 10
-    } else if((!dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; dat$obese[i]) || (dat$prev.surg[i] &amp;&amp; !dat$diabetes[i] &amp;&amp; dat$obese[i]) || (dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; !dat$obese[i])) {
-      r[i] &lt;- 9
-    } else if((!dat$prev.surg[i] &amp;&amp; !dat$diabetes[i] &amp;&amp; dat$obese[i]) || (!dat$prev.surg[i] &amp;&amp; dat$diabetes[i] &amp;&amp; !dat$obese[i]) || (dat$prev.surg[i] &amp;&amp; !dat$diabetes[i] &amp;&amp; !dat$obese[i])) {
-      r[i] &lt;- 8
-    } else {
-      r[i] &lt;- 5
-    }
-  # better
-  } else if(e == 'Some') {
-    if(tot == 3) {
-      r[i] &lt;- 9
-    } else if(tot == 2) {
-      r[i] &lt;- 7
-    } else if(tot == 1) {
-      r[i] &lt;- 5
-    } else {
-      r[i] &lt;- 3
-    }
-  # reasonable
-  } else if(e == 'Moderate') {
-    r[i] &lt;- ifelse(tot == 3, 8, ifelse(tot == 2, 6, ifelse(tot == 1, 3, 1)))
-  # less intuitive, but less code
-  } else if(e == 'Lots') {
-    r[i] &lt;- c(0,2,5,7)[match(tot, 0:3)]
-  }
-}</code></p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> r <span class="o">&lt;-</span> numeric<span class="p">(</span>nrow<span class="p">(</span>dat<span class="p">))</span>
+<span class="lineno"> 2</span> <span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> seq_along<span class="p">(</span>r<span class="p">))</span> <span class="p">{</span>
+<span class="lineno"> 3</span>   tot <span class="o">&lt;-</span> sum<span class="p">(</span>dat<span class="p">[</span>i<span class="p">,</span> c<span class="p">(</span><span class="s">&#39;prev.surg&#39;</span><span class="p">,</span> <span class="s">&#39;diabetes&#39;</span><span class="p">,</span> <span class="s">&#39;obese&#39;</span><span class="p">)])</span>
+<span class="lineno"> 4</span>   e <span class="o">&lt;-</span> dat<span class="p">[</span>i<span class="p">,</span> <span class="s">&#39;exercise&#39;</span><span class="p">]</span>
+<span class="lineno"> 5</span>   <span class="c1"># this is the worst</span>
+<span class="lineno"> 6</span>   <span class="kr">if</span><span class="p">(</span>e <span class="o">==</span> <span class="s">&#39;None&#39;</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 7</span>     <span class="kr">if</span><span class="p">(</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">])</span> <span class="p">{</span>
+<span class="lineno"> 8</span>       r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">10</span>
+<span class="lineno"> 9</span>     <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">((</span><span class="o">!</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">10</span>       <span class="o">||</span> <span class="p">(</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">11</span>       <span class="o">||</span> <span class="p">(</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">]))</span> <span class="p">{</span>
+<span class="lineno">12</span>         r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">9</span>
+<span class="lineno">13</span>     <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">((</span><span class="o">!</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">14</span>       <span class="o">||</span> <span class="p">(</span><span class="o">!</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">15</span>       <span class="o">||</span> <span class="p">(</span>dat<span class="o">$</span>prev.surg<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>dat<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>dat<span class="o">$</span>obese<span class="p">[</span>i<span class="p">]))</span> <span class="p">{</span>
+<span class="lineno">16</span>         r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">8</span>
+<span class="lineno">17</span>     <span class="p">}</span> <span class="kr">else</span> <span class="p">{</span>
+<span class="lineno">18</span>       r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">5</span>
+<span class="lineno">19</span>     <span class="p">}</span>
+<span class="lineno">20</span>   <span class="c1"># better</span>
+<span class="lineno">21</span>   <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">(</span>e <span class="o">==</span> <span class="s">&#39;Some&#39;</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">22</span>     <span class="kr">if</span><span class="p">(</span>tot <span class="o">==</span> <span class="m">3</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">23</span>       r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">9</span>
+<span class="lineno">24</span>     <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">(</span>tot <span class="o">==</span> <span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">25</span>       r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">7</span>
+<span class="lineno">26</span>     <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">(</span>tot <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">27</span>       r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">5</span>
+<span class="lineno">28</span>     <span class="p">}</span> <span class="kr">else</span> <span class="p">{</span>
+<span class="lineno">29</span>       r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> <span class="m">3</span>
+<span class="lineno">30</span>     <span class="p">}</span>
+<span class="lineno">31</span>   <span class="c1"># reasonable</span>
+<span class="lineno">32</span>   <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">(</span>e <span class="o">==</span> <span class="s">&#39;Moderate&#39;</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">33</span>     r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> ifelse<span class="p">(</span>tot <span class="o">==</span> <span class="m">3</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span>
+<span class="lineno">34</span>       ifelse<span class="p">(</span>tot <span class="o">==</span> <span class="m">2</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span>
+<span class="lineno">35</span>         ifelse<span class="p">(</span>tot <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="lineno">36</span>       <span class="p">)</span>
+<span class="lineno">37</span>     <span class="p">)</span>
+<span class="lineno">38</span>   <span class="c1"># less intuitive, but less code</span>
+<span class="lineno">39</span>   <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span><span class="p">(</span>e <span class="o">==</span> <span class="s">&#39;Lots&#39;</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">40</span>     r<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;-</span> c<span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">7</span><span class="p">)[</span>match<span class="p">(</span>tot<span class="p">,</span> <span class="m">0</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
+<span class="lineno">41</span>   <span class="p">}</span>
+<span class="lineno">42</span> <span class="p">}</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -487,21 +522,32 @@ for(i in seq_along(r)) {
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Vectorized solution is best</h2></header>
             
             
-            <section><p><code>r
-tots &lt;- rowSums(dat[, c('prev.surg', 'diabetes', 'obese')])
-dat$risk &lt;- ifelse(dat$exercise == 'None', ifelse(tots == 3, 10, ifelse(tots == 2, 9, ifelse(tots == 1, 8, 5))),
-  ifelse(dat$exercise == 'Some', ifelse(tots == 3, 9, ifelse(tots == 2, 7, ifelse(tots == 1, 5, 3))),
-    ifelse(dat$exercise == 'Moderate', c(1,3,6,8)[match(tots, 0:3)],
-      c(0,2,5,7)[match(tots, 0:3)]
-    )
-  )
-)</code></p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> tots <span class="o">&lt;-</span> rowSums<span class="p">(</span>dat<span class="p">[,</span> c<span class="p">(</span><span class="s">&#39;prev.surg&#39;</span><span class="p">,</span> <span class="s">&#39;diabetes&#39;</span><span class="p">,</span> <span class="s">&#39;obese&#39;</span><span class="p">)])</span>
+<span class="lineno"> 2</span> dat<span class="o">$</span>risk <span class="o">&lt;-</span> ifelse<span class="p">(</span>dat<span class="o">$</span>exercise <span class="o">==</span> <span class="s">&#39;None&#39;</span><span class="p">,</span>
+<span class="lineno"> 3</span>   ifelse<span class="p">(</span>tots <span class="o">==</span> <span class="m">3</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span>
+<span class="lineno"> 4</span>     ifelse<span class="p">(</span>tots <span class="o">==</span> <span class="m">2</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span>
+<span class="lineno"> 5</span>       ifelse<span class="p">(</span>tots <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+<span class="lineno"> 6</span>     <span class="p">)</span>
+<span class="lineno"> 7</span>   <span class="p">),</span>
+<span class="lineno"> 8</span>   ifelse<span class="p">(</span>dat<span class="o">$</span>exercise <span class="o">==</span> <span class="s">&#39;Some&#39;</span><span class="p">,</span>
+<span class="lineno"> 9</span>     ifelse<span class="p">(</span>tots <span class="o">==</span> <span class="m">3</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span>
+<span class="lineno">10</span>       ifelse<span class="p">(</span>tots <span class="o">==</span> <span class="m">2</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span>
+<span class="lineno">11</span>         ifelse<span class="p">(</span>tots <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span>
+<span class="lineno">12</span>       <span class="p">)</span>
+<span class="lineno">13</span>     <span class="p">),</span>
+<span class="lineno">14</span>     ifelse<span class="p">(</span>dat<span class="o">$</span>exercise <span class="o">==</span> <span class="s">&#39;Moderate&#39;</span><span class="p">,</span> c<span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">8</span><span class="p">)[</span>match<span class="p">(</span>tots<span class="p">,</span> <span class="m">0</span><span class="o">:</span><span class="m">3</span><span class="p">)],</span>
+<span class="lineno">15</span>       c<span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">7</span><span class="p">)[</span>match<span class="p">(</span>tots<span class="p">,</span> <span class="m">0</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
+<span class="lineno">16</span>     <span class="p">)</span>
+<span class="lineno">17</span>   <span class="p">)</span>
+<span class="lineno">18</span> <span class="p">)</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -525,32 +571,32 @@ dat$risk &lt;- ifelse(dat$exercise == 'None', ifelse(tots == 3, 10, ifelse(tots 
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Merging datasets</h2></header>
             
             
-            <section><ul>
-<li>
-<p>Merge on single value
-<code>r
-alldat &lt;- merge(dat, hosp)
-alldat &lt;- cbind(dat[match(hosp$id, dat$id),], hosp[,-match('id', names(hosp))])</code></p>
-</li>
-<li>
-<p>Merge on multiple values
-```r
-dat$key &lt;- sample(LETTERS, nrow(dat), replace = TRUE)
-hosp$key &lt;- sample(LETTERS, nrow(hosp), replace = TRUE)</p>
-</li>
-</ul>
-<p>alldat &lt;- merge(dat, hosp)
-dkey &lt;- with(dat, paste(id, key, sep = '|'))
-hkey &lt;- with(hosp, paste(id, key, sep = '|'))
-alldat &lt;- cbind(dat[match(hkey, dkey),], hosp[,-match(c('id','key'), names(hosp))])
-alldat &lt;- alldat[!is.na(alldat$id),]
-```</p>
+            <section><h3>Merge on single value</h3>
+<div class="highlight"><pre><span class="lineno">1</span> alldat <span class="o">&lt;-</span> merge<span class="p">(</span>dat<span class="p">,</span> hosp<span class="p">)</span>
+<span class="lineno">2</span> alldat <span class="o">&lt;-</span> cbind<span class="p">(</span>dat<span class="p">[</span>match<span class="p">(</span>hosp<span class="o">$</span>id<span class="p">,</span> dat<span class="o">$</span>id<span class="p">),],</span>
+<span class="lineno">3</span>   hosp<span class="p">[,</span><span class="o">-</span>match<span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> names<span class="p">(</span>hosp<span class="p">))]</span>
+<span class="lineno">4</span> <span class="p">)</span>
+</pre></div>
+
+<h3>Merge on multiple values</h3>
+<div class="highlight"><pre><span class="lineno"> 1</span> dat<span class="o">$</span>key <span class="o">&lt;-</span> sample<span class="p">(</span>LETTERS<span class="p">,</span> nrow<span class="p">(</span>dat<span class="p">),</span> replace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="lineno"> 2</span> hosp<span class="o">$</span>key <span class="o">&lt;-</span> sample<span class="p">(</span>LETTERS<span class="p">,</span> nrow<span class="p">(</span>hosp<span class="p">),</span> replace <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> alldat <span class="o">&lt;-</span> merge<span class="p">(</span>dat<span class="p">,</span> hosp<span class="p">)</span>
+<span class="lineno"> 5</span> dkey <span class="o">&lt;-</span> with<span class="p">(</span>dat<span class="p">,</span> paste<span class="p">(</span>id<span class="p">,</span> key<span class="p">,</span> sep <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="p">))</span>
+<span class="lineno"> 6</span> hkey <span class="o">&lt;-</span> with<span class="p">(</span>hosp<span class="p">,</span> paste<span class="p">(</span>id<span class="p">,</span> key<span class="p">,</span> sep <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="p">))</span>
+<span class="lineno"> 7</span> alldat <span class="o">&lt;-</span> cbind<span class="p">(</span>dat<span class="p">[</span>match<span class="p">(</span>hkey<span class="p">,</span> dkey<span class="p">),],</span>
+<span class="lineno"> 8</span>   hosp<span class="p">[,</span><span class="o">-</span>match<span class="p">(</span>c<span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span><span class="s">&#39;key&#39;</span><span class="p">),</span> names<span class="p">(</span>hosp<span class="p">))]</span>
+<span class="lineno"> 9</span> <span class="p">)</span>
+<span class="lineno">10</span> alldat <span class="o">&lt;-</span> alldat<span class="p">[</span><span class="o">!</span>is.na<span class="p">(</span>alldat<span class="o">$</span>id<span class="p">),]</span>
+</pre></div>
+
 <h3>A custom merge using match can be much faster</h3></section>
             
           </div>
@@ -575,23 +621,23 @@ alldat &lt;- alldat[!is.na(alldat$id),]
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Intermediate data set</h2></header>
             
             
-            <section><ul>
-<li>Convenient starting point and compressed
-```r</li>
-</ul>
-<h1>platform-independent path to working directory</h1>
-<p>work.dir &lt;- file.path('path','to','your','data')</p>
-<h1>save for later</h1>
-<p>save(dat, hosp, alldat, file = file.path(work.dir, 'demo_data.RData'))</p>
-<h1>pick up where you left off</h1>
-<p>load(file.path(work.dir, 'demo_data.RData'))
-```</p></section>
+            <section><h3>Convenient starting point and compressed</h3>
+<div class="highlight"><pre><span class="lineno">1</span> <span class="c1"># platform-independent path to working directory</span>
+<span class="lineno">2</span> work.dir <span class="o">&lt;-</span> file.path<span class="p">(</span><span class="s">&#39;path&#39;</span><span class="p">,</span><span class="s">&#39;to&#39;</span><span class="p">,</span><span class="s">&#39;your&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">)</span>
+<span class="lineno">3</span> 
+<span class="lineno">4</span> <span class="c1"># save for later</span>
+<span class="lineno">5</span> save<span class="p">(</span>dat<span class="p">,</span> hosp<span class="p">,</span> alldat<span class="p">,</span> file <span class="o">=</span> file.path<span class="p">(</span>work.dir<span class="p">,</span> <span class="s">&#39;demo_data.RData&#39;</span><span class="p">))</span>
+<span class="lineno">6</span> 
+<span class="lineno">7</span> <span class="c1"># pick up where you left off</span>
+<span class="lineno">8</span> load<span class="p">(</span>file.path<span class="p">(</span>work.dir<span class="p">,</span> <span class="s">&#39;demo_data.RData&#39;</span><span class="p">))</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -623,12 +669,11 @@ alldat &lt;- alldat[!is.na(alldat$id),]
             
             <section><ul>
 <li>Modularity - write functions for different form validations</li>
-<li>
-<p>Shorter functions are easier to maintain and test</p>
-</li>
-<li>
-<p>Goal: generate text file with errors by creating a vector of character strings</p>
-</li>
+<li>Shorter functions are easier to maintain and test</li>
+</ul>
+<h3>Goal</h3>
+<ul>
+<li>Generate text file with errors by creating a vector of character strings</li>
 </ul>
 <h3>Examine by ID or all IDs</h3>
 <ul>
@@ -658,24 +703,32 @@ alldat &lt;- alldat[!is.na(alldat$id),]
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>How not to validate</h2></header>
             
             
-            <section><p><code>r
-errors &lt;- character()
-errors &lt;- NULL
-for(i in seq(nrow(x))) {
-  if(is.na(x$enroll.date[i])) errors &lt;- c(errors, 'no enroll date')
-  if(is.na(x$surgery.date[i])) errors &lt;- c(errors, 'no surgery date')
-  if(is.na(x$followup.date[i])) errors &lt;- c(errors, 'no followup date')
-  if(x$enroll.date[i] &gt; x$surgery.date[i]) errors &lt;- c(errors, 'must be enrolled before surgery')
-  if(x$surgery.date[i] &gt; x$followup.date[i])  errors &lt;- c(errors, 'must have surgery before follow-up')
-  if(x$height[i] &lt; 48 || x$height[i] &gt; 84) errors &lt;- c(errors, 'height is too short or tall')
-  if(x$on.insulin[i] &amp;&amp; !x$diabetes[i]) errors &lt;- c(errors, 'on insulin, but not diabetic')
-}</code></p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> errors <span class="o">&lt;-</span> character<span class="p">()</span>
+<span class="lineno"> 2</span> errors <span class="o">&lt;-</span> <span class="kc">NULL</span>
+<span class="lineno"> 3</span> <span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> seq<span class="p">(</span>nrow<span class="p">(</span>x<span class="p">)))</span> <span class="p">{</span>
+<span class="lineno"> 4</span>   <span class="kr">if</span><span class="p">(</span>is.na<span class="p">(</span>x<span class="o">$</span>enroll.date<span class="p">[</span>i<span class="p">]))</span>
+<span class="lineno"> 5</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;no enroll date&#39;</span><span class="p">)</span>
+<span class="lineno"> 6</span>   <span class="kr">if</span><span class="p">(</span>is.na<span class="p">(</span>x<span class="o">$</span>surgery.date<span class="p">[</span>i<span class="p">]))</span>
+<span class="lineno"> 7</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;no surgery date&#39;</span><span class="p">)</span>
+<span class="lineno"> 8</span>   <span class="kr">if</span><span class="p">(</span>is.na<span class="p">(</span>x<span class="o">$</span>followup.date<span class="p">[</span>i<span class="p">]))</span>
+<span class="lineno"> 9</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;no followup date&#39;</span><span class="p">)</span>
+<span class="lineno">10</span>   <span class="kr">if</span><span class="p">(</span>x<span class="o">$</span>enroll.date<span class="p">[</span>i<span class="p">]</span> <span class="o">&gt;</span> x<span class="o">$</span>surgery.date<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">11</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;must be enrolled before surgery&#39;</span><span class="p">)</span>
+<span class="lineno">12</span>   <span class="kr">if</span><span class="p">(</span>x<span class="o">$</span>surgery.date<span class="p">[</span>i<span class="p">]</span> <span class="o">&gt;</span> x<span class="o">$</span>followup.date<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">13</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;must have surgery before follow-up&#39;</span><span class="p">)</span>
+<span class="lineno">14</span>   <span class="kr">if</span><span class="p">(</span>x<span class="o">$</span>height<span class="p">[</span>i<span class="p">]</span> <span class="o">&lt;</span> <span class="m">48</span> <span class="o">||</span> x<span class="o">$</span>height<span class="p">[</span>i<span class="p">]</span> <span class="o">&gt;</span> <span class="m">84</span><span class="p">)</span>
+<span class="lineno">15</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;height is too short or tall&#39;</span><span class="p">)</span>
+<span class="lineno">16</span>   <span class="kr">if</span><span class="p">(</span>x<span class="o">$</span>on.insulin<span class="p">[</span>i<span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>x<span class="o">$</span>diabetes<span class="p">[</span>i<span class="p">])</span>
+<span class="lineno">17</span>     errors <span class="o">&lt;-</span> c<span class="p">(</span>errors<span class="p">,</span> <span class="s">&#39;on insulin, but not diabetic&#39;</span><span class="p">)</span>
+<span class="lineno">18</span> <span class="p">}</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -699,24 +752,31 @@ for(i in seq(nrow(x))) {
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Pre-define errors</h2></header>
             
             
-            <section><p>```r
-errors &lt;- character(7)</p>
-<h1>?sprintf</h1>
-<h1>use %s for variable place-holder</h1>
-<p>errors[1] &lt;- sprintf("no enroll date for rows [%s]", paste(which(is.na(x$enroll.date)), collapse=','))
-errors[2] &lt;- sprintf("no surgery date for rows [%s]", paste(which(is.na(x$surgery.date)), collapse=','))
-errors[3] &lt;- sprintf("no followup date for rows [%s]", paste(which(is.na(x$followup.date)), collapse=','))
-errors[4] &lt;- sprintf("must be enrolled before surgery for rows [%s]", paste(which(x$enroll.date &gt; x$surgery.date), collapse=','))
-errors[5] &lt;- sprintf("must have surgery before follow-up for rows [%s]", paste(which(x$surgery.date &gt; x$followup.date), collapse=','))
-errors[6] &lt;- sprintf("height is too short or tall for rows [%s]", paste(which(x$height &lt; 48 | x$height &gt; 84), collapse=','))
-errors[7] &lt;- sprintf("on insulin, but not diabetic [%s]", paste(which(x$on.insulin &amp; !x$diabetes), collapse=','))
-```</p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> errors <span class="o">&lt;-</span> character<span class="p">(</span><span class="m">7</span><span class="p">)</span>
+<span class="lineno"> 2</span> <span class="c1"># ?sprintf</span>
+<span class="lineno"> 3</span> <span class="c1"># use %s for variable place-holder</span>
+<span class="lineno"> 4</span> errors<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;no enroll date for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno"> 5</span>   paste<span class="p">(</span>which<span class="p">(</span>is.na<span class="p">(</span>x<span class="o">$</span>enroll.date<span class="p">)),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+<span class="lineno"> 6</span> errors<span class="p">[</span><span class="m">2</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;no surgery date for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno"> 7</span>   paste<span class="p">(</span>which<span class="p">(</span>is.na<span class="p">(</span>x<span class="o">$</span>surgery.date<span class="p">)),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+<span class="lineno"> 8</span> errors<span class="p">[</span><span class="m">3</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;no followup date for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno"> 9</span>   paste<span class="p">(</span>which<span class="p">(</span>is.na<span class="p">(</span>x<span class="o">$</span>followup.date<span class="p">)),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+<span class="lineno">10</span> errors<span class="p">[</span><span class="m">4</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;must be enrolled before surgery for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno">11</span>   paste<span class="p">(</span>which<span class="p">(</span>x<span class="o">$</span>enroll.date <span class="o">&gt;</span> x<span class="o">$</span>surgery.date<span class="p">),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+<span class="lineno">12</span> errors<span class="p">[</span><span class="m">5</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;surgery required before follow-up for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno">13</span>   paste<span class="p">(</span>which<span class="p">(</span>x<span class="o">$</span>surgery.date <span class="o">&gt;</span> x<span class="o">$</span>followup.date<span class="p">),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+<span class="lineno">14</span> errors<span class="p">[</span><span class="m">6</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;height is too short or tall for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno">15</span>   paste<span class="p">(</span>which<span class="p">(</span>x<span class="o">$</span>height <span class="o">&lt;</span> <span class="m">48</span> <span class="o">|</span> x<span class="o">$</span>height <span class="o">&gt;</span> <span class="m">84</span><span class="p">),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+<span class="lineno">16</span> errors<span class="p">[</span><span class="m">7</span><span class="p">]</span> <span class="o">&lt;-</span> sprintf<span class="p">(</span><span class="s">&quot;on insulin, but not diabetic [%s]&quot;</span><span class="p">,</span>
+<span class="lineno">17</span>   paste<span class="p">(</span>which<span class="p">(</span>x<span class="o">$</span>on.insulin <span class="o">&amp;</span> <span class="o">!</span>x<span class="o">$</span>diabetes<span class="p">),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">))</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -740,36 +800,40 @@ errors[7] &lt;- sprintf("on insulin, but not diabetic [%s]", paste(which(x$on.in
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>data.frame approach</h2></header>
             
             
-            <section><p>```r
-errorList &lt;- c(
-  miss.enroll = 'no enroll date',
-  miss.surgery = 'no surgery date',
-  miss.followup = 'no followup date',
-  late.enroll = 'must be enrolled before surgery',
-  late.surgery = 'must have surgery before follow-up',
-  bad.height = 'height is too short or tall',
-  bad.insulin = 'on insulin, but not diabetic'
-)
-errors &lt;- data.frame(matrix(NA, nrow=nrow(x), ncol=length(errorList)))
-names(errors) &lt;- names(errorList)</p>
-<h1>DRY applies here, especially if we checked more than 3 columns for missing</h1>
-<p>errors$miss.enroll &lt;- is.na(x$enroll.date)
-errors$miss.surgery &lt;- is.na(x$surgery.date)
-errors$miss.followup &lt;- is.na(x$followup.date)
-errors$late.enroll &lt;- x$enroll.date &gt; x$surgery.date
-errors$late.surgery &lt;- x$surgery.date &gt; x$followup.date
-errors$bad.height &lt;- x$height &lt; 48 | x$height &gt; 84
-errors$bad.insulin &lt;- x$on.insulin &amp; !x$diabetes
-errorMsg &lt;- lapply(names(which(colSums(errors, na.rm=TRUE) &gt; 0)), FUN=function(i) {
-  sprintf("%s for rows [%s]", errorList[i], paste(which(errors[,i]), collapse=','))
-})
-```</p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> errorList <span class="o">&lt;-</span> c<span class="p">(</span>
+<span class="lineno"> 2</span>   miss.enroll <span class="o">=</span> <span class="s">&#39;no enroll date&#39;</span><span class="p">,</span>
+<span class="lineno"> 3</span>   miss.surgery <span class="o">=</span> <span class="s">&#39;no surgery date&#39;</span><span class="p">,</span>
+<span class="lineno"> 4</span>   miss.followup <span class="o">=</span> <span class="s">&#39;no followup date&#39;</span><span class="p">,</span>
+<span class="lineno"> 5</span>   late.enroll <span class="o">=</span> <span class="s">&#39;must be enrolled before surgery&#39;</span><span class="p">,</span>
+<span class="lineno"> 6</span>   late.surgery <span class="o">=</span> <span class="s">&#39;must have surgery before follow-up&#39;</span><span class="p">,</span>
+<span class="lineno"> 7</span>   bad.height <span class="o">=</span> <span class="s">&#39;height is too short or tall&#39;</span><span class="p">,</span>
+<span class="lineno"> 8</span>   bad.insulin <span class="o">=</span> <span class="s">&#39;on insulin, but not diabetic&#39;</span>
+<span class="lineno"> 9</span> <span class="p">)</span>
+<span class="lineno">10</span> errors <span class="o">&lt;-</span> data.frame<span class="p">(</span>matrix<span class="p">(</span><span class="kc">NA</span><span class="p">,</span> nrow<span class="o">=</span>nrow<span class="p">(</span>x<span class="p">),</span> ncol<span class="o">=</span>length<span class="p">(</span>errorList<span class="p">)))</span>
+<span class="lineno">11</span> names<span class="p">(</span>errors<span class="p">)</span> <span class="o">&lt;-</span> names<span class="p">(</span>errorList<span class="p">)</span>
+<span class="lineno">12</span> <span class="c1"># DRY applies here</span>
+<span class="lineno">13</span> errors<span class="o">$</span>miss.enroll <span class="o">&lt;-</span> is.na<span class="p">(</span>x<span class="o">$</span>enroll.date<span class="p">)</span>
+<span class="lineno">14</span> errors<span class="o">$</span>miss.surgery <span class="o">&lt;-</span> is.na<span class="p">(</span>x<span class="o">$</span>surgery.date<span class="p">)</span>
+<span class="lineno">15</span> errors<span class="o">$</span>miss.followup <span class="o">&lt;-</span> is.na<span class="p">(</span>x<span class="o">$</span>followup.date<span class="p">)</span>
+<span class="lineno">16</span> errors<span class="o">$</span>late.enroll <span class="o">&lt;-</span> x<span class="o">$</span>enroll.date <span class="o">&gt;</span> x<span class="o">$</span>surgery.date
+<span class="lineno">17</span> errors<span class="o">$</span>late.surgery <span class="o">&lt;-</span> x<span class="o">$</span>surgery.date <span class="o">&gt;</span> x<span class="o">$</span>followup.date
+<span class="lineno">18</span> errors<span class="o">$</span>bad.height <span class="o">&lt;-</span> x<span class="o">$</span>height <span class="o">&lt;</span> <span class="m">48</span> <span class="o">|</span> x<span class="o">$</span>height <span class="o">&gt;</span> <span class="m">84</span>
+<span class="lineno">19</span> errors<span class="o">$</span>bad.insulin <span class="o">&lt;-</span> x<span class="o">$</span>on.insulin <span class="o">&amp;</span> <span class="o">!</span>x<span class="o">$</span>diabetes
+<span class="lineno">20</span> errorMsg <span class="o">&lt;-</span> lapply<span class="p">(</span>names<span class="p">(</span>which<span class="p">(</span>colSums<span class="p">(</span>errors<span class="p">,</span> na.rm<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)),</span>
+<span class="lineno">21</span>   FUN<span class="o">=</span><span class="kr">function</span><span class="p">(</span>i<span class="p">)</span> <span class="p">{</span>
+<span class="lineno">22</span>     sprintf<span class="p">(</span><span class="s">&quot;%s for rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno">23</span>       errorList<span class="p">[</span>i<span class="p">],</span> paste<span class="p">(</span>which<span class="p">(</span>errors<span class="p">[,</span>i<span class="p">]),</span> collapse<span class="o">=</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+<span class="lineno">24</span>     <span class="p">)</span>
+<span class="lineno">25</span>   <span class="p">}</span>
+<span class="lineno">26</span> <span class="p">)</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -793,37 +857,42 @@ errorMsg &lt;- lapply(names(which(colSums(errors, na.rm=TRUE) &gt; 0)), FUN=func
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Some things must be done one ID at a time</h2></header>
             
             
-            <section><p><code>r
-checkHospitalization &lt;- function(x) {
-  errorList &lt;- c(
-    bad.dose = 'time between doses is too short',
-    bad.admit = 'first dose given too early',
-    need.dose = 'dose required but missing',
-    extra.dose = 'dose given but not required'
-  )
-  uids &lt;- unique(x$id)
-  # don't use subset
-  z &lt;- lapply(uids, FUN=function(i) checkHospitalizationById(subset(x, id == i), errorList))
-  # predefine list size, easier to debug
-  zz &lt;- vector('list', length(uids))
-  for(i in seq_along(uids)) {
-    zz[[i]] &lt;- checkHospitalizationById(x[x$id == uids[i],], errorList)
-  }
-  zzz &lt;- do.call(rbind, zz)
-  errorMsg &lt;- lapply(colnames(zzz), FUN=function(i) {
-    badix &lt;- which(nchar(zzz[,i]) &gt; 0)
-    if(length(badix)) {
-      sprintf("%s for id [%s] at rows [%s]", errorList[i], rownames(zzz)[badix], zzz[badix,i])
-    }
-  })
-  errorMsg
-}</code></p></section>
+            <section><div class="highlight"><pre><span class="lineno"> 1</span> checkHospitalization <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 2</span>   errorL <span class="o">&lt;-</span> c<span class="p">(</span>
+<span class="lineno"> 3</span>     bad.dose <span class="o">=</span> <span class="s">&#39;time between doses is too short&#39;</span><span class="p">,</span>
+<span class="lineno"> 4</span>     bad.admit <span class="o">=</span> <span class="s">&#39;first dose given too early&#39;</span><span class="p">,</span>
+<span class="lineno"> 5</span>     need.dose <span class="o">=</span> <span class="s">&#39;dose required but missing&#39;</span><span class="p">,</span>
+<span class="lineno"> 6</span>     extra.dose <span class="o">=</span> <span class="s">&#39;dose given but not required&#39;</span>
+<span class="lineno"> 7</span>   <span class="p">)</span>
+<span class="lineno"> 8</span>   uids <span class="o">&lt;-</span> unique<span class="p">(</span>x<span class="o">$</span>id<span class="p">)</span>
+<span class="lineno"> 9</span>   <span class="c1"># don&#39;t use subset</span>
+<span class="lineno">10</span>   z <span class="o">&lt;-</span> lapply<span class="p">(</span>uids<span class="p">,</span> FUN<span class="o">=</span><span class="kr">function</span><span class="p">(</span>i<span class="p">)</span> <span class="p">{</span>
+<span class="lineno">11</span>     checkHospitalizationById<span class="p">(</span>subset<span class="p">(</span>x<span class="p">,</span> id <span class="o">==</span> i<span class="p">),</span> errorL<span class="p">)</span>
+<span class="lineno">12</span>   <span class="p">})</span>
+<span class="lineno">13</span>   <span class="c1"># predefine list size, easier to debug</span>
+<span class="lineno">14</span>   zz <span class="o">&lt;-</span> vector<span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> length<span class="p">(</span>uids<span class="p">))</span>
+<span class="lineno">15</span>   <span class="kr">for</span><span class="p">(</span>i <span class="kr">in</span> seq_along<span class="p">(</span>uids<span class="p">))</span> <span class="p">{</span>
+<span class="lineno">16</span>     zz<span class="p">[[</span>i<span class="p">]]</span> <span class="o">&lt;-</span> checkHospitalizationById<span class="p">(</span>x<span class="p">[</span>x<span class="o">$</span>id <span class="o">==</span> uids<span class="p">[</span>i<span class="p">],],</span> errorL<span class="p">)</span>
+<span class="lineno">17</span>   <span class="p">}</span>
+<span class="lineno">18</span>   zzz <span class="o">&lt;-</span> do.call<span class="p">(</span>rbind<span class="p">,</span> zz<span class="p">)</span>
+<span class="lineno">19</span>   errorMsg <span class="o">&lt;-</span> lapply<span class="p">(</span>colnames<span class="p">(</span>zzz<span class="p">),</span> FUN<span class="o">=</span><span class="kr">function</span><span class="p">(</span>i<span class="p">)</span> <span class="p">{</span>
+<span class="lineno">20</span>     badix <span class="o">&lt;-</span> which<span class="p">(</span>nchar<span class="p">(</span>zzz<span class="p">[,</span>i<span class="p">])</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span>
+<span class="lineno">21</span>     <span class="kr">if</span><span class="p">(</span>length<span class="p">(</span>badix<span class="p">))</span> <span class="p">{</span>
+<span class="lineno">22</span>       sprintf<span class="p">(</span><span class="s">&quot;%s for id [%s] at rows [%s]&quot;</span><span class="p">,</span>
+<span class="lineno">23</span>         errorL<span class="p">[</span>i<span class="p">],</span> rownames<span class="p">(</span>zzz<span class="p">)[</span>badix<span class="p">],</span> zzz<span class="p">[</span>badix<span class="p">,</span>i<span class="p">]</span>
+<span class="lineno">24</span>       <span class="p">)</span>
+<span class="lineno">25</span>     <span class="p">}</span>
+<span class="lineno">26</span>   <span class="p">})</span>
+<span class="lineno">27</span>   errorMsg
+<span class="lineno">28</span> <span class="p">}</span>
+</pre></div>
+</section>
             
           </div>
           <div class="presenter_notes">
@@ -847,20 +916,21 @@ checkHospitalization &lt;- function(x) {
       
       <!-- slide source: examples.md -->
       <div class="slide-wrapper">
-        <div class="slide">
+        <div class="slide has_code">
           <div class="inner">
             
             <header><h2>Putting it together</h2></header>
             
             
-            <section><p>```r
-dem.errors &lt;- checkDemographics(dat)</p>
-<h1>when testing, work on a smaller subset</h1>
-<p>hosp.errors &lt;- checkHospitalization(alldat[1:1000,])
-all.errors &lt;- unlist(c(dem.errors, hosp.errors))</p>
-<h1>write out errors</h1>
-<p>write(all.errors, file = file.path(work.dir, 'validation_errors.txt'))
-```</p>
+            <section><div class="highlight"><pre><span class="lineno">1</span> dem.errors <span class="o">&lt;-</span> checkDemographics<span class="p">(</span>dat<span class="p">)</span>
+<span class="lineno">2</span> <span class="c1"># when testing, work on a smaller subset</span>
+<span class="lineno">3</span> hosp.errors <span class="o">&lt;-</span> checkHospitalization<span class="p">(</span>alldat<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">1000</span><span class="p">,])</span>
+<span class="lineno">4</span> all.errors <span class="o">&lt;-</span> unlist<span class="p">(</span>c<span class="p">(</span>dem.errors<span class="p">,</span> hosp.errors<span class="p">))</span>
+<span class="lineno">5</span> 
+<span class="lineno">6</span> <span class="c1"># write out errors</span>
+<span class="lineno">7</span> write<span class="p">(</span>all.errors<span class="p">,</span> file <span class="o">=</span> file.path<span class="p">(</span>work.dir<span class="p">,</span> <span class="s">&#39;validation_errors.txt&#39;</span><span class="p">))</span>
+</pre></div>
+
 <h3>Check out <a href="http://datatable.r-forge.r-project.org/">data.table</a> and <a href="https://github.com/hadley/dplyr">dplyr</a></h3></section>
             
           </div>
