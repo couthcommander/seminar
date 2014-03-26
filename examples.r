@@ -1,18 +1,3 @@
-### My objective is to save you future time: you'll write programs faster, you'll modify programs faster, and your programs will run faster.
-
-### efficient code
-# 1) how long does it take to write
-# 2) how long does it take to modify
-# 3) how long does it take to run
-## it's a good thing if other people can read and understand your code -- it's even better if you can understand your code when you revisit it three years later
-## it's a good thing if your code runs start to finish without intervention -- it's even better if you can specify at what point to start or finish
-## it's a good thing if you can optimize code so that it runs in 1 minute instead of 10 minutes -- it's even better if you didn't spend 4 hours (pre-optimization)
-
-### key concepts
-# 1) don't repeat yourself - don't copy and paste
-# 2) use modular design; keep it simple or comment
-# 3) learn to vectorize and predefine the length of vectors
-
 library(Hmisc)
 
 # platform-independent file path
@@ -22,10 +7,6 @@ setwd(work.dir)
 # simulated datasets, forgive unrealistic values
 dat <- read.csv(file.path(work.dir, 'demo_data.csv'), stringsAsFactors=FALSE)
 hosp <- read.csv(file.path(work.dir, 'hosp_data.csv'), stringsAsFactors=FALSE)
-
-# start with transformations
-# add/edit/delete columns
-# merge datasets
 
 ## what's the best way to assign a new column?
 x <- data.frame(id=seq(1000000))
@@ -41,8 +22,6 @@ x[['s4']] <- s
 # assign default (NA), then value
 x$s <- NA
 x$s <- s
-# ANSWER: doesn't matter (with assignment)
-# ?Extract
 
 ## convert TRUE/FALSE to 1/0
 x <- sample(TRUE:FALSE, 10, replace=TRUE)
@@ -50,10 +29,6 @@ as.numeric(x)
 x+0
 x*1
 mode(x) <- 'numeric'
-# ANSWER: doesn't matter
-
-## point: optimization you shouldn't care about, or pre-optimization
-# easiest to type/read/understand -- preference, consistent
 
 dat$prev.surg <- (dat$prev.surg == 'Yes')+0
 dat$bmi <- 703 * dat$weight / dat$height^2
@@ -64,8 +39,6 @@ dat$obese <- (dat$bmi >= 30)+0
 dat$enroll.date <- as.Date(dat$enroll.date, format = '%Y-%m-%d')
 dat$surgery.date <- as.Date(dat$surgery.date, format = '%Y-%m-%d')
 dat$followup.date <- as.Date(dat$followup.date, format = '%Y-%m-%d')
-
-### KEY CONCEPT 1: DRY, don't repeat yourself
 
 # name date columns
 date.vars <- c('enroll.date', 'surgery.date', 'followup.date')
@@ -80,10 +53,9 @@ for(i in date.vars) {
   fakedat[,i] <- as.Date(dat[,i], format = '%Y-%m-%d')
 }
 # cannot re-assign all at once
-dat[,date.vars] <- as.Date(dat[,date.vars], format = '%Y-%m-%d')
+tryCatch(dat[,date.vars] <- as.Date(dat[,date.vars], format = '%Y-%m-%d'), error = function(e) e)
 # lapply works
 dat[,date.vars] <- lapply(dat[,date.vars], as.Date, format = '%Y-%m-%d')
-# ANSWER: I like for loop
 
 ## converting strings to date-times
 # good idea to specify timezone - default relies on locale so results may vary on user/computer/location
@@ -185,7 +157,6 @@ save(dat, hosp, alldat, file = file.path(work.dir, 'demo_data.RData'))
 # write functions for different form validations -- modularity
 # shorter functions are easier to maintain and test
 
-### KEY CONCEPT 2: MODULARITY
 checkDemographics <- function(x) {
   ## what should be vectorized?
   # the way to not do validation
@@ -275,14 +246,32 @@ checkHospitalization <- function(x) {
 }
 
 dem.errors <- checkDemographics(dat)
-hosp.errors <- checkHospitalization(alldat[1:1000,])
+hosp.errors <- checkHospitalization(alldat)
 all.errors <- unlist(c(dem.errors, hosp.errors))
 # write out errors
 write(all.errors, file = file.path(work.dir, 'validation_errors.txt'))
 
-# repeating test
-# reference sas script - break tasks down into functions
-# talk about mer's project, metadata and data dictionaries build programs
-# regular expressions
-# knitr
-# linear model
+## bonus code
+page(hosp, "print")
+# ?page
+
+prettyprint <- function(x, labels) {
+  x <- data.frame(x)
+  sz <- ncol(x)
+  if(!missing(labels)) names(x)[seq_along(labels)] <- labels
+  size <- sapply(seq(sz), FUN=function(i) max(nchar(c(names(x)[i], as.character(x[[i]]))))) + 2
+  newrow <- sprintf("+%s+", paste(sapply(size, FUN=function(i) paste(rep('-',i), collapse='')), collapse='+'))
+  rowPr <- sapply(size, FUN=function(i) sprintf("%%%ss ", i-1))
+  header <- sprintf("|%s|", paste(sapply(seq(sz), FUN=function(j) sprintf(rowPr[j], names(x)[j])), collapse='|'))
+  content <- sprintf("|%s|", apply(x, MARGIN=1, FUN=function(i) paste(sapply(seq(sz), FUN=function(j) sprintf(rowPr[j], i[j])), collapse='|')))
+  cat(paste(c(newrow, header, newrow, content, newrow), collapse='\n'), "\n")
+}
+
+q_tab <- function(vars,df) {
+  for(idx in vars) {
+    prettyprint(table(df[idx],exclude=NULL), idx)
+  }
+}
+
+prettyprint(head(dat))
+q_tab(c('age.grp','risk'), dat)
